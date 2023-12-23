@@ -40,3 +40,6 @@ pip install flash-attn --no-build-isolation
 pip install zarr
 
 pip install tensorstore
+
+# megablcoks (gpu is needed for the cuda kernels)
+pip install .
