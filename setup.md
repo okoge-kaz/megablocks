@@ -65,3 +65,9 @@ git submodule update --init
     pip install zarr
     pip install tensorstore
     ```
+
+7. install megablcoks packages
+
+    ```bash
+    pip install .
+    ```
