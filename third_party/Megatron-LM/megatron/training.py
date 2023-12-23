@@ -631,7 +631,6 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
     wandb_stats: dict[str, typing.Any] = {}
     if wandb_writer and (iteration % args.tensorboard_log_interval == 0) and is_last_rank():
         wandb_stats["utils/steps-vs-samples"] = args.consumed_train_samples
-        wandb_stats["utils/steps-vs-tokens"] = args.consumed_train_tokens
 
         if args.log_learning_rate_to_tensorboard:
             wandb_stats["utils/learning-rate"] = learning_rate
@@ -655,6 +654,25 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
     if iteration % args.log_interval == 0:
         elapsed_time = timers('interval-time').elapsed(barrier=True)
         elapsed_time_per_iteration = elapsed_time / total_iterations
+
+        from megatron.utils import throughput_calculator
+
+        samples_per_sec, tflops, samples_per_model, model_replica_count = throughput_calculator(
+            args=args, iteration_time=elapsed_time, total_iterations=total_iterations
+        )
+        # Compute throughput.
+        samples_per_sec_per_replica = samples_per_sec / args.data_parallel_size
+        tokens_per_sec = samples_per_sec * args.seq_length
+        tokens_per_sec_per_replica = tokens_per_sec / args.data_parallel_size
+
+        wandb_stats["stats/samples_per_sec"] = samples_per_sec
+        wandb_stats["stats/samples_per_sec_per_replica"] = samples_per_sec_per_replica
+        wandb_stats["stats/tokens_per_sec"] = tokens_per_sec
+        wandb_stats["stats/tokens_per_sec_per_replica"] = tokens_per_sec_per_replica
+
+        if wandb_writer and is_last_rank():
+            wandb.log(wandb_stats, step=iteration)
+
         if writer:
             if args.log_timers_to_tensorboard:
                 writer.add_scalar('iteration-time',
@@ -880,6 +898,7 @@ def evaluate(forward_step_func,
 
     return total_loss_dict, collected_non_loss_data
 
+
 def evaluate_and_print_results(prefix, forward_step_func,
                                data_iterator, model,
                                iteration, process_non_loss_data_func,
@@ -887,6 +906,7 @@ def evaluate_and_print_results(prefix, forward_step_func,
     """Helper function to evaluate and dump results on screen."""
     args = get_args()
     writer = get_tensorboard_writer()
+    wandb_writer = get_wandb_writer()
 
     total_loss_dict, collected_non_loss_data = evaluate(
         forward_step_func, data_iterator, model,
@@ -909,6 +929,12 @@ def evaluate_and_print_results(prefix, forward_step_func,
                 writer.add_scalar('{} validation ppl vs samples'.format(key),
                                   ppl, args.consumed_train_samples)
 
+        if wandb_writer and is_last_rank():
+            wandb_stats = {}
+            wandb_stats[f'lm-loss-validation/{key}'] = total_loss_dict[key].item()
+            wandb_stats[f'lm-loss-validation/{key}_ppl'] = ppl
+            wandb.log(wandb_stats, step=iteration)
+
     if process_non_loss_data_func is not None and writer and is_last_rank():
         process_non_loss_data_func(collected_non_loss_data, iteration, writer)
 
@@ -922,6 +948,7 @@ def cyclic_iter(iter):
     while True:
         for x in iter:
             yield x
+
 
 def build_train_valid_test_data_iterators(
         build_train_valid_test_datasets_provider):

@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -l rt_AF=1
+#$ -l rt_AF=2
 #$ -l h_rt=10:00:00
 #$ -j y
 #$ -o outputs/MoE/356m_8gpu/
@@ -48,34 +48,16 @@ done <"$SGE_JOB_HOSTLIST" >"$HOSTFILE_NAME"
 # 512 * 1k * 100k = 50b tokens (default).
 # 512 * 1k * 20k = 10b tokens.
 TRAINING_STEPS=20000
-if [ -n "${2}" ]; then
-  TRAINING_STEPS=$2
-fi
 
-NUM_EXPERTS=64
-if [ -n "${3}" ]; then
-  NUM_EXPERTS=$3
-fi
+NUM_EXPERTS=16
 
-CAPACITY_FACTOR=16384
-if [ -n "${4}" ]; then
-  CAPACITY_FACTOR=$4
-fi
+CAPACITY_FACTOR=1
 
 TOP_K=1
-if [ -n "${5}" ]; then
-  TOP_K=$5
-fi
 
 LOSS_WEIGHT=0.1
-if [ -n "${6}" ]; then
-  LOSS_WEIGHT=$6
-fi
 
-BATCH_SIZE=64
-if [ -n "${7}" ]; then
-  BATCH_SIZE=$7
-fi
+BATCH_SIZE=2
 
 ##
 ### Pre-training for MoE 356M parameter.
@@ -126,14 +108,19 @@ COMPUTE_ARGUMENTS="\
 --moe-expert-model-parallelism \
 --no-async-tensor-model-parallel-allreduce"
 
+CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_8gpu
+
 CHECKPOINT_ARGUMENTS="\
---save-interval 2000 \
---save ./${EXP_DIR}"
+--save-interval 1000 \
+--save ${CHECKPOINT_DIR}"
 
 EVALUATION_ARGUMENTS="\
 --eval-iters 100 \
---log-interval 100 \
+--log-interval 1 \
 --eval-interval 1000"
+
+# ldconfig
+alias ldconfig=/usr/sbin/ldconfig
 
 # run
 mpirun -np $NUM_GPUS \

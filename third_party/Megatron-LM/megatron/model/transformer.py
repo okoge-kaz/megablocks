@@ -177,6 +177,7 @@ class SwitchMLP(MegatronModule):
 
         return output_total, output_bias_total
 
+
 class _MegablocksAdapter(MegatronModule):
 
     def __init__(self, layer_cls, init_method, output_layer_init_method):

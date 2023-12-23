@@ -9,8 +9,10 @@ import numpy as np
 import stk
 import torch
 
+
 def promote_scalar(x):
     return x.view(1) if not len(x.size()) else x
+
 
 class ParallelDroplessMLP(moe.ParallelMLP):
 
