@@ -44,19 +44,13 @@ while read -r line; do
 done <"$SGE_JOB_HOSTLIST" >"$HOSTFILE_NAME"
 
 # training settings
-TRAINING_STEPS=20000
+TRAIN_ITERATIONS=20000
 
 # MoE hyperparameters.
 NUM_EXPERTS=16
 CAPACITY_FACTOR=1
 TOP_K=1
 LOSS_WEIGHT=0.1
-
-MOE_ARGUMENTS="\
---moe-num-experts=${NUM_EXPERTS} \
---moe-capacity-factor=${CAPACITY_FACTOR} \
---moe-loss-weight=${LOSS_WEIGHT} \
---moe-top-k=${TOP_K}"
 
 # Pre-training for MoE 356M parameter.
 
@@ -70,57 +64,43 @@ INIT_STD=0.018
 
 SEQUENCE_LENGTH=4096
 
-MODEL_ARGUMENTS="\
---num-layers ${NUM_LAYERS} \
---hidden-size ${HIDDEN_SIZE} \
---num-attention-heads ${NUM_ATTENTION_HEADS} \
---seq-length ${SEQUENCE_LENGTH} \
---max-position-embeddings ${SEQUENCE_LENGTH}"
-
 # Training hyperparameters.
 BATCH_SIZE=1
+GLOBAL_BATCH_SIZE=512
 
-TRAINING_ARGUMENTS="\
---micro-batch-size ${BATCH_SIZE} \
---global-batch-size 512 \
---train-iters ${TRAINING_STEPS} \
---lr-decay-iters ${TRAINING_STEPS} \
---lr ${LR} \
---min-lr ${MIN_LR} \
---lr-decay-style cosine \
---lr-warmup-fraction 0.01 \
---clip-grad 1.0 \
---init-method-std ${INIT_STD}"
+# data config
+TOKENIZER_MODEL=/bb/llm/gaf51275/llm-jp/llm-ja-tokenizer/models/ver2/code10K_en20K_ja30K.ver2.2.model
+DATASET_DIR=/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train
 
-DATASET="datasets/BookCorpusDataset_text_document"
+TRAIN_DATA_PATH=""
 
-# NOTE: We don't train for enough tokens for the
-# split to matter.
-DATA_ARGUMENTS="\
---data-path ${DATASET} \
---vocab-file datasets/gpt2-vocab.json \
---merge-file datasets/gpt2-merges.txt \
---make-vocab-size-divisible-by 1024 \
---split 900,90,10"
+# ja wiki
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 1489457253 ${DATASET_DIR}/ja_wiki/ja_wiki_merge_1_text_document"
+# en wiki
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 4983898399 ${DATASET_DIR}/en_wiki/en_wiki_merge_1_text_document"
+# code stack
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 8967214774 ${DATASET_DIR}/code_stack/code_stack_merge_1_text_document"
+# en pile
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17716652494 ${DATASET_DIR}/en_pile/en_pile_merge_1_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17728398911 ${DATASET_DIR}/en_pile/en_pile_merge_2_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17862741217 ${DATASET_DIR}/en_pile/en_pile_merge_3_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17854181202 ${DATASET_DIR}/en_pile/en_pile_merge_4_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17779824310 ${DATASET_DIR}/en_pile/en_pile_merge_5_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17847796716 ${DATASET_DIR}/en_pile/en_pile_merge_6_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 8938950206 ${DATASET_DIR}/en_pile/en_pile_merge_7_text_document"
+# ja cc
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19540410239 ${DATASET_DIR}/ja_cc/ja_cc_merge_1_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19559059958 ${DATASET_DIR}/ja_cc/ja_cc_merge_2_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19547251566 ${DATASET_DIR}/ja_cc/ja_cc_merge_3_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19550089401 ${DATASET_DIR}/ja_cc/ja_cc_merge_4_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19553509796 ${DATASET_DIR}/ja_cc/ja_cc_merge_5_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19566479585 ${DATASET_DIR}/ja_cc/ja_cc_merge_6_text_document"
+TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17060823775 ${DATASET_DIR}/ja_cc/ja_cc_merge_7_text_document"
 
-COMPUTE_ARGUMENTS="\
---bf16 \
---DDP-impl local \
---tensor-model-parallel-size 2 \
---moe-expert-model-parallelism \
---no-async-tensor-model-parallel-allreduce"
+# checkpoint settings
+CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb/
 
-CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_8gpu
 mkdir -p ${CHECKPOINT_DIR}
-
-CHECKPOINT_ARGUMENTS="\
---save-interval 1000 \
---save ${CHECKPOINT_DIR}"
-
-EVALUATION_ARGUMENTS="\
---eval-iters 100 \
---log-interval 1 \
---eval-interval 100"
 
 # ldconfig
 alias ldconfig=/usr/sbin/ldconfig
@@ -135,13 +115,38 @@ mpirun -np $NUM_GPUS \
   -bind-to none -map-by slot \
   -x PATH \
   python third_party/Megatron-LM/pretrain_gpt.py \
-  ${MOE_ARGUMENTS} \
-  ${MODEL_ARGUMENTS} \
-  ${TRAINING_ARGUMENTS} \
-  ${DATA_ARGUMENTS} \
-  ${COMPUTE_ARGUMENTS} \
-  ${CHECKPOINT_ARGUMENTS} \
-  ${EVALUATION_ARGUMENTS} \
+  --moe-num-experts=${NUM_EXPERTS} \
+  --moe-capacity-factor=${CAPACITY_FACTOR} \
+  --moe-loss-weight=${LOSS_WEIGHT} \
+  --moe-top-k=${TOP_K} \
+  --num-layers ${NUM_LAYERS} \
+  --hidden-size ${HIDDEN_SIZE} \
+  --num-attention-heads ${NUM_ATTENTION_HEADS} \
+  --seq-length ${SEQUENCE_LENGTH} \
+  --max-position-embeddings ${SEQUENCE_LENGTH} \
+  --micro-batch-size ${BATCH_SIZE} \
+  --global-batch-size ${GLOBAL_BATCH_SIZE} \
+  --train-iters ${TRAIN_ITERATIONS} \
+  --lr-decay-iters ${TRAIN_ITERATIONS} \
+  --lr ${LR} \
+  --min-lr ${MIN_LR} \
+  --lr-decay-style cosine \
+  --lr-warmup-fraction 0.01 \
+  --clip-grad 1.0 \
+  --data-path ${TRAIN_DATA_PATH} \
+  --tokenizer-type SentencePieceTokenizer \
+  --tokenizer-model ${TOKENIZER_MODEL} \
+  --bf16 \
+  --DDP-impl local \
+  --tensor-model-parallel-size 2 \
+  --moe-expert-model-parallelism \
+  --no-async-tensor-model-parallel-allreduce \
+  --save-interval 1000 \
+  --save ${CHECKPOINT_DIR} \
+  --load ${CHECKPOINT_DIR} \
+  --eval-iters 100 \
+  --log-interval 1 \
+  --eval-interval 100 \
   --use-mpi \
   --wandb-entity "okoge" \
   --wandb-project "megablock" \

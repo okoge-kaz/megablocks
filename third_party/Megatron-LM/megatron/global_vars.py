@@ -80,8 +80,7 @@ def _set_signal_handler():
     _GLOBAL_SIGNAL_HANDLER = dist_signal_handler.DistributedSignalHandler().__enter__()
 
 
-
-def set_global_variables(args):
+def set_global_variables(args, build_tokenizer=True):
     """Set args, tokenizer, tensorboard-writer, adlr-autoresume, and timers."""
 
     assert args is not None
@@ -90,7 +89,7 @@ def set_global_variables(args):
     set_args(args)
 
     _build_num_microbatches_calculator(args)
-    if args.vocab_file:
+    if build_tokenizer:
         _ = _build_tokenizer(args)
     _set_tensorboard_writer(args)
     _set_wandb_writer(args)
@@ -99,7 +98,7 @@ def set_global_variables(args):
 
     if args.exit_signal_handler:
         _set_signal_handler()
-    
+
 
 def set_args(args):
     global _GLOBAL_ARGS
@@ -167,12 +166,12 @@ def _set_wandb_writer(args: argparse.Namespace) -> None:
             now = datetime.now()
             now = now.strftime("%Y-%m-%d-%H-%M-%S")
             exp_name = args.wandb_name + "-" + now
-            entity: str = args.wandb_entity or "okoge"
+            entity: str = args.wandb_entity
             wandb_input = {
                 "entity": entity,
                 "name": exp_name,
                 "config": args,
-                "project": args.wandb_project or "megatron-lm-3d",
+                "project": args.wandb_project,
             }
             if args.wandb_id is not None:
                 wandb_input["id"] = args.wandb_id
