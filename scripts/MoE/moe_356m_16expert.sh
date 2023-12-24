@@ -2,7 +2,7 @@
 #$ -l rt_AF=2
 #$ -l h_rt=10:00:00
 #$ -j y
-#$ -o outputs/MoE/356m_8gpu/
+#$ -o outputs/MoE/356m_16expert/
 #$ -cwd
 
 # module load
@@ -43,53 +43,54 @@ while read -r line; do
   echo "${line} slots=${NUM_GPU_PER_NODE}"
 done <"$SGE_JOB_HOSTLIST" >"$HOSTFILE_NAME"
 
-# 512 * 1k * 400k = 200b tokens.
-# 512 * 1k * 200k = 100b tokens.
-# 512 * 1k * 100k = 50b tokens (default).
-# 512 * 1k * 20k = 10b tokens.
+# training settings
 TRAINING_STEPS=20000
 
+# MoE hyperparameters.
 NUM_EXPERTS=16
-
 CAPACITY_FACTOR=1
-
 TOP_K=1
-
 LOSS_WEIGHT=0.1
 
-BATCH_SIZE=2
-
-##
-### Pre-training for MoE 356M parameter.
-##
-
-# MoE hyperparameters.
 MOE_ARGUMENTS="\
 --moe-num-experts=${NUM_EXPERTS} \
 --moe-capacity-factor=${CAPACITY_FACTOR} \
 --moe-loss-weight=${LOSS_WEIGHT} \
 --moe-top-k=${TOP_K}"
 
-# Model hyperparameters.
+# Pre-training for MoE 356M parameter.
+
+NUM_LAYERS=24
+HIDDEN_SIZE=1024
+NUM_ATTENTION_HEADS=16
+
+LR=3.0e-4
+MIN_LR=1.0e-6
+INIT_STD=0.018
+
+SEQUENCE_LENGTH=4096
+
 MODEL_ARGUMENTS="\
---num-layers 24 \
---hidden-size 1024 \
---num-attention-heads 16 \
---seq-length 1024 \
---max-position-embeddings 1024"
+--num-layers ${NUM_LAYERS} \
+--hidden-size ${HIDDEN_SIZE} \
+--num-attention-heads ${NUM_ATTENTION_HEADS} \
+--seq-length ${SEQUENCE_LENGTH} \
+--max-position-embeddings ${SEQUENCE_LENGTH}"
 
 # Training hyperparameters.
+BATCH_SIZE=1
+
 TRAINING_ARGUMENTS="\
 --micro-batch-size ${BATCH_SIZE} \
 --global-batch-size 512 \
 --train-iters ${TRAINING_STEPS} \
 --lr-decay-iters ${TRAINING_STEPS} \
---lr 0.00015 \
---min-lr 0.00001 \
+--lr ${LR} \
+--min-lr ${MIN_LR} \
 --lr-decay-style cosine \
 --lr-warmup-fraction 0.01 \
 --clip-grad 1.0 \
---init-method-std 0.01"
+--init-method-std ${INIT_STD}"
 
 DATASET="datasets/BookCorpusDataset_text_document"
 
@@ -100,15 +101,17 @@ DATA_ARGUMENTS="\
 --vocab-file datasets/gpt2-vocab.json \
 --merge-file datasets/gpt2-merges.txt \
 --make-vocab-size-divisible-by 1024 \
---split 969,30,1"
+--split 900,90,10"
 
 COMPUTE_ARGUMENTS="\
---fp16 \
+--bf16 \
 --DDP-impl local \
+--tensor-model-parallel-size 2 \
 --moe-expert-model-parallelism \
 --no-async-tensor-model-parallel-allreduce"
 
 CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_8gpu
+mkdir -p ${CHECKPOINT_DIR}
 
 CHECKPOINT_ARGUMENTS="\
 --save-interval 1000 \
@@ -117,7 +120,7 @@ CHECKPOINT_ARGUMENTS="\
 EVALUATION_ARGUMENTS="\
 --eval-iters 100 \
 --log-interval 1 \
---eval-interval 1000"
+--eval-interval 100"
 
 # ldconfig
 alias ldconfig=/usr/sbin/ldconfig
