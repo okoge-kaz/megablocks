@@ -44,7 +44,7 @@ while read -r line; do
 done <"$SGE_JOB_HOSTLIST" >"$HOSTFILE_NAME"
 
 # training settings
-TRAIN_ITERATIONS=20000
+TRAIN_ITERATIONS=63312
 
 # MoE hyperparameters.
 NUM_EXPERTS=16
@@ -56,6 +56,7 @@ LOSS_WEIGHT=0.1
 
 NUM_LAYERS=24
 HIDDEN_SIZE=1024
+FFN_HIDDEN_SIZE=$((${HIDDEN_SIZE} * 4))  # gpt architecuture
 NUM_ATTENTION_HEADS=16
 
 LR=3.0e-4
@@ -64,9 +65,11 @@ INIT_STD=0.018
 
 SEQUENCE_LENGTH=4096
 
+WEIGHT_DECAY=0.1
+
 # Training hyperparameters.
 BATCH_SIZE=1
-GLOBAL_BATCH_SIZE=512
+GLOBAL_BATCH_SIZE=1024
 
 # data config
 TOKENIZER_MODEL=/bb/llm/gaf51275/llm-jp/llm-ja-tokenizer/models/ver2/code10K_en20K_ja30K.ver2.2.model
@@ -97,6 +100,16 @@ TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19553509796 ${DATASET_DIR}/ja_cc/ja_cc_merge
 TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19566479585 ${DATASET_DIR}/ja_cc/ja_cc_merge_6_text_document"
 TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17060823775 ${DATASET_DIR}/ja_cc/ja_cc_merge_7_text_document"
 
+# validation data
+VALIDATION_DATASET_PATH="/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val"
+
+VALIDATION_DATA_PATH=""
+VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 77810430 ${VALIDATION_DATASET_PATH}/code_stack_validation_0_text_document"
+VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 37133061 ${VALIDATION_DATASET_PATH}/en_pile_validation_0_text_document"
+VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 1011609 ${VALIDATION_DATASET_PATH}/en_wiki_validation_0_text_document"
+VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 147265562 ${VALIDATION_DATASET_PATH}/ja_cc_validation_0_text_document"
+VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 1097003 ${VALIDATION_DATASET_PATH}/ja_wiki_validation_0_text_document"
+
 # checkpoint settings
 CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb/
 
@@ -121,6 +134,7 @@ mpirun -np $NUM_GPUS \
   --moe-top-k=${TOP_K} \
   --num-layers ${NUM_LAYERS} \
   --hidden-size ${HIDDEN_SIZE} \
+  --ffn-hidden-size ${FFN_HIDDEN_SIZE} \
   --num-attention-heads ${NUM_ATTENTION_HEADS} \
   --seq-length ${SEQUENCE_LENGTH} \
   --max-position-embeddings ${SEQUENCE_LENGTH} \
@@ -128,14 +142,18 @@ mpirun -np $NUM_GPUS \
   --global-batch-size ${GLOBAL_BATCH_SIZE} \
   --train-iters ${TRAIN_ITERATIONS} \
   --lr-decay-iters ${TRAIN_ITERATIONS} \
+  --init-method-std ${INIT_STD} \
   --lr ${LR} \
   --min-lr ${MIN_LR} \
   --lr-decay-style cosine \
   --lr-warmup-fraction 0.01 \
   --clip-grad 1.0 \
-  --data-path ${TRAIN_DATA_PATH} \
+  --weight-decay ${WEIGHT_DECAY} \
   --tokenizer-type SentencePieceTokenizer \
   --tokenizer-model ${TOKENIZER_MODEL} \
+  --train-data-path ${TRAIN_DATA_PATH} \
+  --valid-data-path ${VALIDATION_DATA_PATH} \
+  --distributed-backend nccl \
   --bf16 \
   --DDP-impl local \
   --tensor-model-parallel-size 2 \
@@ -144,10 +162,15 @@ mpirun -np $NUM_GPUS \
   --save-interval 1000 \
   --save ${CHECKPOINT_DIR} \
   --load ${CHECKPOINT_DIR} \
-  --eval-iters 100 \
+  --eval-iters 10 \
   --log-interval 1 \
-  --eval-interval 100 \
+  --eval-interval 10 \
+  --use-flash-attn \
   --use-mpi \
   --wandb-entity "okoge" \
   --wandb-project "megablock" \
   --wandb-name "MoE_356M_expert=${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
+
+# normalization
+# recompute-gradularity
+

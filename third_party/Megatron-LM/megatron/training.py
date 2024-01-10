@@ -97,7 +97,7 @@ def pretrain(train_valid_test_dataset_provider,
     # This will be closer to what scheduler will see (outside of
     # image ... launches.
     global _TRAIN_START_TIME
-    start_time_tensor = torch.cuda.DoubleTensor([_TRAIN_START_TIME])
+    start_time_tensor = torch.tensor([_TRAIN_START_TIME], dtype=torch.double, device="cuda")
     torch.distributed.all_reduce(start_time_tensor,
                                  op=torch.distributed.ReduceOp.MIN)
     _TRAIN_START_TIME = start_time_tensor.item()
@@ -169,6 +169,7 @@ def pretrain(train_valid_test_dataset_provider,
                                    test_data_iterator, model,
                                    0, process_non_loss_data_func,
                                    True)
+
 
 def update_train_iters(args):
 
@@ -416,13 +417,14 @@ def train_step(forward_step_func, data_iterator,
     optimizer.zero_grad()
 
     # Forward pass.
-    timers('forward-backward', log_level=1).start(
-        barrier=args.barrier_with_L1_time)
+    timers('forward-backward', log_level=1).start(barrier=args.barrier_with_L1_time)
+
     forward_backward_func = get_forward_backward_func()
     fwd_bwd_timers = timers if args.timing_log_level > 1 else None
     losses_reduced = forward_backward_func(
         forward_step_func, data_iterator, model,
         optimizer, fwd_bwd_timers, forward_only=False)
+
     timers('forward-backward').stop()
 
     # Empty unused memory.
@@ -669,6 +671,7 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
         wandb_stats["stats/samples_per_sec_per_replica"] = samples_per_sec_per_replica
         wandb_stats["stats/tokens_per_sec"] = tokens_per_sec
         wandb_stats["stats/tokens_per_sec_per_replica"] = tokens_per_sec_per_replica
+        wandb_stats["stats/tflops"] = tflops
 
         if wandb_writer and is_last_rank():
             wandb.log(wandb_stats, step=iteration)
@@ -685,6 +688,9 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
             elapsed_time_per_iteration * 1000.0)
         log_string += ' learning rate: {:.3E} |'.format(learning_rate)
         log_string += ' global batch size: {:5d} |'.format(batch_size)
+        log_string += f"tokens per sec: {tokens_per_sec} |"
+        log_string += f"TFLOPS: {tflops} |"
+
         for key in total_loss_dict:
             if key not in [advanced_iters_key, skipped_iters_key,
                            nan_iters_key]:
@@ -949,9 +955,35 @@ def cyclic_iter(iter):
             yield x
 
 
-def build_train_valid_test_data_iterators(
+def build_train_valid_test_datasets(build_train_valid_test_datasets_provider):
+    """Build pretraining datasets."""
+
+    args = get_args()
+
+    # Number of train/valid/test samples.
+    if args.train_samples:
+        train_samples = args.train_samples
+    else:
+        train_samples = args.train_iters * args.global_batch_size
+    eval_iters = (args.train_iters // args.eval_interval + 1) * args.eval_iters
+    test_iters = args.eval_iters
+    print_rank_0(f"train_samples={train_samples}, eval_iters={eval_iters}, test_iters={test_iters}")
+    train_val_test_num_samples = [train_samples,
+                                  eval_iters * args.global_batch_size,
+                                  test_iters * args.global_batch_size]
+    print_rank_0(' > datasets target sizes (minimum size):')
+    print_rank_0('    train:      {}'.format(train_val_test_num_samples[0]))
+    print_rank_0('    validation: {}'.format(train_val_test_num_samples[1]))
+    print_rank_0('    test:       {}'.format(train_val_test_num_samples[2]))
+
+    # Build the datasets.
+    return build_train_valid_test_datasets_provider(train_val_test_num_samples)
+
+
+def build_train_valid_test_data_loaders(
         build_train_valid_test_datasets_provider):
-    """XXX"""
+    """Build pretraining data loaders."""
+
     args = get_args()
 
     (train_dataloader, valid_dataloader, test_dataloader) = (None, None, None)
@@ -961,7 +993,7 @@ def build_train_valid_test_data_iterators(
     # Backward compatibility, assume fixed batch size.
     if args.iteration > 0 and args.consumed_train_samples == 0:
         assert args.train_samples is None, \
-            'only backward compatiblity support for iteration-based training'
+            'only backward compatibility support for iteration-based training'
         args.consumed_train_samples = args.iteration * args.global_batch_size
     if args.iteration > 0 and args.consumed_valid_samples == 0:
         if args.train_samples is None:
@@ -971,25 +1003,9 @@ def build_train_valid_test_data_iterators(
     # Data loader only on rank 0 of each model parallel group.
     if mpu.get_tensor_model_parallel_rank() == 0:
 
-        # Number of train/valid/test samples.
-        if args.train_samples:
-            train_samples = args.train_samples
-        else:
-            train_samples = args.train_iters * args.global_batch_size
-        eval_iters = (args.train_iters // args.eval_interval + 1) * \
-                     args.eval_iters
-        test_iters = args.eval_iters
-        train_val_test_num_samples = [train_samples,
-                                      eval_iters * args.global_batch_size,
-                                      test_iters * args.global_batch_size]
-        print_rank_0(' > datasets target sizes (minimum size):')
-        print_rank_0('    train:      {}'.format(train_val_test_num_samples[0]))
-        print_rank_0('    validation: {}'.format(train_val_test_num_samples[1]))
-        print_rank_0('    test:       {}'.format(train_val_test_num_samples[2]))
-
-        # Build the datasets.
-        train_ds, valid_ds, test_ds = build_train_valid_test_datasets_provider(
-            train_val_test_num_samples)
+        # Build datasets.
+        train_ds, valid_ds, test_ds = build_train_valid_test_datasets(
+            build_train_valid_test_datasets_provider)
 
         # Build dataloders.
         train_dataloader = build_pretraining_data_loader(
@@ -1015,6 +1031,20 @@ def build_train_valid_test_data_iterators(
     args.do_train = flags[0].item()
     args.do_valid = flags[1].item()
     args.do_test = flags[2].item()
+
+    return train_dataloader, valid_dataloader, test_dataloader
+
+
+def build_train_valid_test_data_iterators(
+        build_train_valid_test_datasets_provider):
+    """Build pretraining data iterators."""
+
+    args = get_args()
+
+    # Build loaders.
+    train_dataloader, valid_dataloader, test_dataloader = \
+        build_train_valid_test_data_loaders(
+            build_train_valid_test_datasets_provider)
 
     # Build iterators.
     dl_type = args.dataloader_type

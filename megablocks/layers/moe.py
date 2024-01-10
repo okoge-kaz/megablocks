@@ -65,7 +65,6 @@ def batched_load_balancing_loss(args : Arguments):
          x.shape[0] == tokens) for x in expert_scores
     ])
 
-
     # Concatenate the contributions of each layer and convert to
     # the correct types and formats for the dot product.
     if args.moe_lbl_in_fp32:

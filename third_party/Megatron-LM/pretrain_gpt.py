@@ -62,6 +62,7 @@ def get_batch(data_iterator):
 
     return tokens, labels, loss_mask, attention_mask, position_ids
 
+
 def loss_func(loss_mask, output_tensor):
     losses = output_tensor.float()
     loss_mask = loss_mask.view(-1).float()
@@ -71,6 +72,7 @@ def loss_func(loss_mask, output_tensor):
     averaged_loss = average_losses_across_data_parallel_group([loss])
 
     return loss, {'lm loss': averaged_loss[0]}
+
 
 def moe_loss_func(loss_mask, output_tensor=None):
     # NOTE: For pipeline parallelism this function will be run on the
@@ -111,6 +113,7 @@ def moe_loss_func(loss_mask, output_tensor=None):
     total_loss = loss + lbl if loss is not None else lbl
     return total_loss, loss_dict
 
+
 def forward_step(data_iterator, model):
     """Forward step."""
     args = get_args()
@@ -128,6 +131,7 @@ def forward_step(data_iterator, model):
     loss_fn = (
         moe_loss_func if args.moe_num_experts is not None else loss_func)
     return output_tensor, partial(loss_fn, loss_mask)
+
 
 def train_valid_test_datasets_provider(train_val_test_num_samples):
     """Build train, valid, and test datasets."""

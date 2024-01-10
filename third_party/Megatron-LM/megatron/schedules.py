@@ -34,6 +34,7 @@ def get_forward_backward_func():
         forward_backward_func = forward_backward_no_pipelining
     return forward_backward_func
 
+
 def deallocate_output_tensor(out):
     '''Pseudo-deallocate (i.e., set to scalar) the output tensor's '.data' field.
 
@@ -52,10 +53,11 @@ def deallocate_output_tensor(out):
         "counter-productive to free a view of another tensor."
     out.data = torch.empty(
         (1,),
-        device = out.device,
-        dtype = out.dtype,
+        device=out.device,
+        dtype=out.dtype,
     )
-        
+
+
 def custom_backward(output, grad_output, lbl_loss=None):
     '''Directly call C++ autograd engine.
 
@@ -131,6 +133,7 @@ def forward_step(forward_step_func,
 
     unwrapped_model.set_input_tensor(input_tensor)
     output_tensor, loss_func = forward_step_func(data_iterator, model)
+
     lbl_loss = None
     if mpu.is_pipeline_last_stage():
         if not collect_non_loss_data:
@@ -239,18 +242,30 @@ def dummy_handler():
         pass
 
 
-def forward_backward_no_pipelining(forward_step_func,
-                                   data_iterator, model,
-                                   optimizer,
-                                   timers,
-                                   forward_only,
-                                   collect_non_loss_data=False):
+from typing import List, Union, Iterator
+
+
+def forward_backward_no_pipelining(
+    forward_step_func,
+    data_iterator: Union[Iterator, List[Iterator]],
+    model: Union[torch.nn.Module, List[torch.nn.Module]],
+    optimizer,
+    timers,
+    forward_only: bool,
+    collect_non_loss_data=False
+):
     """Run forward and backward passes with no pipeline parallelism
     (no inter-stage communication).
 
     Returns dictionary with losses."""
-    assert len(model) == 1
-    model = model[0]
+    if isinstance(model, list):
+        assert len(model) == 1, "non-pipeline-parallel schedule does not support model chunking"
+        model = model[0]
+    if isinstance(data_iterator, list):
+        assert (
+            len(data_iterator) == 1
+        ), "non-pipeline-parallel schedule does not support model chunking"
+        data_iterator = data_iterator[0]
 
     context_handler = dummy_handler
     if isinstance(model, torchDDP):
@@ -258,14 +273,26 @@ def forward_backward_no_pipelining(forward_step_func,
 
     forward_data_store = []
     input_tensor, output_tensor_grad = None, None
+
     with context_handler():
         for i in range(get_num_microbatches() - 1):
-            output_tensor = forward_step(forward_step_func, data_iterator,
-                                         model, input_tensor, forward_data_store,
-                                         timers, collect_non_loss_data)
+            output_tensor = forward_step(
+                forward_step_func,
+                data_iterator,
+                model,
+                input_tensor,
+                forward_data_store,
+                timers,
+                collect_non_loss_data
+            )
             if not forward_only:
-                backward_step(optimizer, input_tensor, output_tensor,
-                              output_tensor_grad, timers)
+                backward_step(
+                    optimizer,
+                    input_tensor,
+                    output_tensor,
+                    output_tensor_grad,
+                    timers
+                )
 
     # Run computation for last microbatch out of context handler (want to
     # synchronize gradients).
