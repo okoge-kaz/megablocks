@@ -76,9 +76,9 @@ def validate_args(args, defaults={}):
         args.pipeline_model_parallel_size
     )
     # Checks.
-    model_parallel_size = args.pipeline_model_parallel_size * \
-                          args.tensor_model_parallel_size
-    assert args.world_size % model_parallel_size == 0, 'world size is not'\
+    model_parallel_size = args.pipeline_model_parallel_size * args.tensor_model_parallel_size
+
+    assert args.world_size % model_parallel_size == 0, 'world size ({})is not'\
         ' divisible by tensor parallel size ({}) times pipeline parallel ' \
         'size ({})'.format(args.world_size, args.tensor_model_parallel_size,
                            args.pipeline_model_parallel_size)
@@ -93,9 +93,8 @@ def validate_args(args, defaults={}):
     if args.pipeline_model_parallel_size > 1:
         if args.pipeline_model_parallel_split_rank is not None:
             assert args.pipeline_model_parallel_split_rank < \
-                    args.pipeline_model_parallel_size, 'split rank needs'\
-                    ' to be less than pipeline model parallel size ({})'.format(
-                            args.pipeline_model_parallel_size)
+                   args.pipeline_model_parallel_size, 'split rank needs'\
+                   ' to be less than pipeline model parallel size ({})'.format(args.pipeline_model_parallel_size)
 
     # Deprecated arguments
     assert args.batch_size is None, '--batch-size argument is no longer ' \
@@ -130,8 +129,7 @@ def validate_args(args, defaults={}):
             if args.rank == 0:
                 print('WARNING: overriding default arguments for {key}:{v} \
                        with {key}:{v2}'.format(key=key, v=defaults[key],
-                                               v2=getattr(args, key)),
-                                               flush=True)
+                                               v2=getattr(args, key)), flush=True)
         else:
             setattr(args, key, defaults[key])
 
@@ -394,28 +392,29 @@ def _add_transformer_engine_args(parser):
     group = parser.add_argument_group(title='Transformer-Engine')
 
     group.add_argument('--fp8-e4m3', action='store_true',
-                        help='E4M3 TransformerLayer', dest='fp8_e4m3')
+                       help='E4M3 TransformerLayer', dest='fp8_e4m3')
     group.add_argument('--fp8-hybrid', action='store_true',
-                        help='Hybrid FP8 TransformerLayer', dest='fp8_hybrid')
+                       help='Hybrid FP8 TransformerLayer', dest='fp8_hybrid')
     group.add_argument('--no-fp8-wgrad', action='store_false',
-                        help='Execute wgrad in higher precision even for FP8 runs', dest='fp8_wgrad')
+                       help='Execute wgrad in higher precision even for FP8 runs', dest='fp8_wgrad')
     group.add_argument('--fp8-margin', type=int, default=0,
-                        help='Scaling margin for fp8', dest='fp8_margin')
+                       help='Scaling margin for fp8', dest='fp8_margin')
     group.add_argument('--fp8-interval', type=int, default=1,
-                        help='Scaling update interval for fp8', dest='fp8_interval')
+                       help='Scaling update interval for fp8', dest='fp8_interval')
     group.add_argument('--transformer-impl', default='local',
                        choices=['local', 'transformer_engine'],
                        help='Which Transformer implementation to use.',
                        dest='transformer_impl')
     group.add_argument('--fp8-amax-history-len', type=int, default=1,
-                        help='Number of steps for which amax history is recorded per tensor',
-                        dest='fp8_amax_history_len')
+                       help='Number of steps for which amax history is recorded per tensor',
+                       dest='fp8_amax_history_len')
     group.add_argument('--fp8-amax-compute-algo', default='most_recent',
                        choices=['most_recent', 'max'],
                        help='Algorithm for computing amax from history',
                        dest='fp8_amax_compute_algo')
 
     return parser
+
 
 def _add_inference_args(parser):
     group = parser.add_argument_group(title='inference')
@@ -444,7 +443,7 @@ def _add_network_size_args(parser):
     group.add_argument('--decoder-num-layers', type=int, default=None,
                        help='Number of decoder transformer layers.')
     group.add_argument('--hidden-size', type=int, default=None,
-                       help='Tansformer hidden size.')
+                       help='Transformer hidden size.')
     group.add_argument('--ffn-hidden-size', type=int, default=None,
                        help='Transformer Feed-Forward Network hidden size. '
                        'This is set to 4*hidden-size if not provided')
@@ -460,7 +459,7 @@ def _add_network_size_args(parser):
                        'This is the size of position embedding.')
     group.add_argument('--make-vocab-size-divisible-by', type=int, default=128,
                        help='Pad the vocab size to be divisible by this value.'
-                       'This is added for computational efficieny reasons.')
+                       'This is added for computational efficiency reasons.')
     group.add_argument('--layernorm-epsilon', type=float, default=1e-5,
                        help='Layer norm epsilon.')
     group.add_argument('--apply-residual-connection-post-layernorm',
@@ -516,7 +515,7 @@ def _add_logging_args(parser):
     group.add_argument('--log-num-zeros-in-grad', action='store_true',
                        help='If set, calculate and log the number of zeros in gradient.')
     group.add_argument('--timing-log-level', type=int,
-                       default=0, choices=range(0,3),
+                       default=0, choices=range(0, 3),
                        help='Granularity level to measure and report timing. '
                        '   0: report only iteration time and make sure timing '
                        '      does not introduce extra overhead.'
@@ -911,10 +910,10 @@ def _add_distributed_args(parser):
                        'skips DDP initialization and returns function to '
                        'complete it instead.Also turns on '
                        '--use-cpu-initialization flag. This is for '
-                       'external DDP manager.' )
+                       'external DDP manager.')
     group.add_argument('--use-cpu-initialization', action='store_true',
                        default=None, help='If set, affine parallel weights '
-                       'initialization uses CPU' )
+                       'initialization uses CPU')
     group.add_argument('--empty-unused-memory-level', default=0, type=int,
                        choices=[0, 1, 2],
                        help='Call torch.cuda.empty_cache() each iteration '
@@ -1043,14 +1042,11 @@ def _add_biencoder_args(parser):
 
     # network size
     group.add_argument('--ict-head-size', type=int, default=None,
-                       help='Size of block embeddings to be used in ICT and '
-                        'REALM (paper default: 128)')
+                       help='Size of block embeddings to be used in ICT and REALM (paper default: 128)')
     group.add_argument('--biencoder-projection-dim', type=int, default=0,
-                       help='Size of projection head used in biencoder (paper'
-                        ' default: 128)')
+                       help='Size of projection head used in biencoder (paper default: 128)')
     group.add_argument('--biencoder-shared-query-context-model', action='store_true',
-                        help='Whether to share the parameters of the query '
-                        'and context models or not')
+                       help='Whether to share the parameters of the query and context models or not')
 
     # checkpointing
     group.add_argument('--ict-load', type=str, default=None,
@@ -1072,18 +1068,15 @@ def _add_biencoder_args(parser):
 
     # training
     group.add_argument('--retriever-report-topk-accuracies', nargs='+', type=int,
-                        default=[], help="Which top-k accuracies to report "
-                        "(e.g. '1 5 20')")
+                       default=[], help="Which top-k accuracies to report (e.g. '1 5 20')")
     group.add_argument('--retriever-score-scaling', action='store_true',
-                       help='Whether to scale retriever scores by inverse '
-                        'square root of hidden size')
+                       help='Whether to scale retriever scores by inverse square root of hidden size')
 
     # faiss index
     group.add_argument('--block-data-path', type=str, default=None,
                        help='Where to save/load BlockData to/from')
     group.add_argument('--embedding-path', type=str, default=None,
-                       help='Where to save/load Open-Retrieval Embedding'
-                        ' data to/from')
+                       help='Where to save/load Open-Retrieval Embedding data to/from')
 
     # indexer
     group.add_argument('--indexer-batch-size', type=int, default=128,
