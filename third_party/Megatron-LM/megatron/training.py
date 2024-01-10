@@ -64,7 +64,7 @@ def pretrain(train_valid_test_dataset_provider,
         1) initialize Megatron.
         2) setup model, optimizer and lr schedule using the model_provider.
         3) call train_val_test_data_provider to get train/val/test datasets.
-        4) train the modle using the forward_step_func.
+        4) train the module using the forward_step_func.
 
     Arguments:
         train_valid_test_dataset_provider: a function that takes the size of
@@ -87,7 +87,7 @@ def pretrain(train_valid_test_dataset_provider,
             to set already parse arguments.
     """
 
-    # Initalize and get arguments, timers, and Tensorboard writer.
+    # Initialize and get arguments, timers, and Tensorboard writer.
     initialize_megatron(extra_args_provider=extra_args_provider,
                         args_defaults=args_defaults)
     # Set pytorch JIT layer fusion options and warmup JIT functions.
@@ -188,14 +188,13 @@ def update_train_iters(args):
         # Rampup phase.
         while consumed_samples <= int(args.rampup_batch_size[2]):
             update_num_microbatches(consumed_samples, consistency_check=False)
-            consumed_samples += get_current_global_batch_size()
+            consumed_samples += get_current_global_batch_size()  # type: ignore
             iterations += 1
         # Reset
         update_num_microbatches(0, consistency_check=False)
         # Constant phase
         # Note that we throw away any partial last batch.
-        iterations += (args.train_samples - consumed_samples) // \
-                      args.global_batch_size
+        iterations += (args.train_samples - consumed_samples) // args.global_batch_size
         args.train_iters = iterations
 
     print_rank_0('setting training iterations to {}'.format(args.train_iters))
@@ -206,9 +205,8 @@ def get_model(model_provider_func, model_type=ModelType.encoder_or_decoder, wrap
     # Update the model type to note the load balancing loss if
     # MegaBlocks MoE layers are in use.
     args = get_args()
-    if (args.moe_num_experts is not None
-        and not args.moe_use_megatron_switch and
-        model_type == ModelType.encoder_or_decoder):
+    if ((args.moe_num_experts is not None) and  # noqa: W504
+       not args.moe_use_megatron_switch and model_type == ModelType.encoder_or_decoder):
         model_type = ModelType.encoder_or_decoder_with_lbl
     args.model_type = model_type
 
@@ -242,8 +240,7 @@ def get_model(model_provider_func, model_type=ModelType.encoder_or_decoder, wrap
                 split_rank = args.pipeline_model_parallel_split_rank
                 world_size = mpu.get_pipeline_model_parallel_world_size()
                 pre_process = rank == 0 or rank == split_rank
-                post_process = (rank == (split_rank - 1)) or (
-                        rank == (world_size - 1))
+                post_process = (rank == (split_rank - 1)) or (rank == (world_size - 1))
                 add_encoder = mpu.is_pipeline_stage_before_split()
                 add_decoder = mpu.is_pipeline_stage_after_split()
             model = model_provider_func(
@@ -263,7 +260,7 @@ def get_model(model_provider_func, model_type=ModelType.encoder_or_decoder, wrap
 
     # Disallow training and inference with Transformer Engine
     # for non-GPT models
-    args.allow_transformer_engine = all([type(m) == GPTModel for m in model])
+    args.allow_transformer_engine = all([type(m) == GPTModel for m in model])  # noqa: E721
     assert args.allow_transformer_engine or args.transformer_impl == 'local', \
         'Transformer Engine is only approved for GPT models'
 
@@ -279,10 +276,10 @@ def get_model(model_provider_func, model_type=ModelType.encoder_or_decoder, wrap
     if mpu.get_data_parallel_rank() == 0:
         print(' > number of parameters on (tensor, pipeline) '
               'model parallel rank ({}, {}): {}'.format(
-            mpu.get_tensor_model_parallel_rank(),
-            mpu.get_pipeline_model_parallel_rank(),
-            sum([sum([p.nelement() for p in model_module.parameters()])
-                 for model_module in model])), flush=True)
+                  mpu.get_tensor_model_parallel_rank(),
+                  mpu.get_pipeline_model_parallel_rank(),
+                  sum([sum([p.nelement() for p in model_module.parameters()])
+                       for model_module in model])), flush=True)
 
     # GPU allocation.
     for model_module in model:
@@ -374,7 +371,7 @@ def setup_model_and_optimizer(model_provider_func,
 
     model = get_model(model_provider_func, model_type)
     unwrapped_model = unwrap_model(model,
-                                   (torchDDP, LocalDDP, Float16Module))
+                                   (torchDDP, LocalDDP, Float16Module))  # type: ignore
 
     optimizer = get_megatron_optimizer(model, no_wd_decay_cond,
                                        scale_lr_cond, lr_mult)
@@ -394,8 +391,7 @@ def setup_model_and_optimizer(model_provider_func,
         assert args.DDP_impl == 'local'
 
     # get model without FP16 and/or TorchDDP wrappers
-    if args.iteration == 0 and len(unwrapped_model) == 1 \
-        and hasattr(unwrapped_model[0], 'init_state_dict_from_bert'):
+    if args.iteration == 0 and len(unwrapped_model) == 1 and hasattr(unwrapped_model[0], 'init_state_dict_from_bert'):
         print_rank_0("Initializing ICT from pretrained BERT model")
         unwrapped_model[0].init_state_dict_from_bert()
         if args.fp16:
@@ -437,8 +433,8 @@ def train_step(forward_step_func, data_iterator,
     # Vision gradients.
     if args.vision_pretraining and args.vision_pretraining_type == "dino":
         unwrapped_model = unwrap_model(model[0],
-                                       (torchDDP, LocalDDP, Float16Module))
-        unwrapped_model.cancel_gradients_last_layer(args.curr_iteration)
+                                       (torchDDP, LocalDDP, Float16Module))  # type: ignore
+        unwrapped_model.cancel_gradients_last_layer(args.curr_iteration)  # type: ignore
 
     # Update parameters.
     timers('optimizer', log_level=1).start(barrier=args.barrier_with_L1_time)
@@ -452,14 +448,12 @@ def train_step(forward_step_func, data_iterator,
     # Vision momentum.
     if args.vision_pretraining and args.vision_pretraining_type == "dino":
         unwrapped_model = unwrap_model(model[0],
-                                       (torchDDP, LocalDDP, Float16Module))
-        unwrapped_model.update_momentum(args.curr_iteration)
+                                       (torchDDP, LocalDDP, Float16Module))  # type: ignore
+        unwrapped_model.update_momentum(args.curr_iteration)  # type: ignore
 
     # Update learning rate.
     if update_successful:
-        increment = get_num_microbatches() * \
-                    args.micro_batch_size * \
-                    args.data_parallel_size
+        increment = get_num_microbatches() * args.micro_batch_size * args.data_parallel_size
         opt_param_scheduler.step(increment=increment)
         skipped_iter = 0
     else:
@@ -528,12 +522,10 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
     for key in loss_dict:
         if not skipped_iter:
             total_loss_dict[key] = total_loss_dict.get(
-                key, torch.cuda.FloatTensor([0.0])) + loss_dict[key]
+                key, torch.cuda.FloatTensor([0.0])) + loss_dict[key]  # type: ignore
         else:
             value = loss_dict[key].float().sum().item()
-            is_nan = value == float('inf') or \
-                     value == -float('inf') or \
-                     value != value
+            is_nan = value == float('inf') or value == -float('inf') or value != value
             got_nan = got_nan or is_nan
     total_loss_dict[nan_iters_key] = total_loss_dict.get(
         nan_iters_key, 0) + int(got_nan)
@@ -570,8 +562,7 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
     batch_size = args.micro_batch_size * args.data_parallel_size * \
         get_num_microbatches()
 
-    total_iterations = total_loss_dict[advanced_iters_key] + \
-                       total_loss_dict[skipped_iters_key]
+    total_iterations = total_loss_dict[advanced_iters_key] + total_loss_dict[skipped_iters_key]
 
     # Tensorboard values.
     # Timer requires all the ranks to call.
@@ -694,11 +685,10 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
         for key in total_loss_dict:
             if key not in [advanced_iters_key, skipped_iters_key,
                            nan_iters_key]:
-                avg = total_loss_dict[key].item() / \
-                      float(max(1, total_loss_dict[advanced_iters_key]))
+                avg = total_loss_dict[key].item() / float(max(1, total_loss_dict[advanced_iters_key]))
                 if avg > 0.0:
                     log_string += ' {}: {:.6E} |'.format(key, avg)
-                total_loss_dict[key] = torch.cuda.FloatTensor([0.0])
+                total_loss_dict[key] = torch.cuda.FloatTensor([0.0])  # type: ignore
         log_string += ' loss scale: {:.1f} |'.format(loss_scale)
         if grad_norm is not None:
             log_string += ' grad norm: {:.3f} |'.format(grad_norm)
@@ -766,9 +756,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
                        optimizer,
                        opt_param_scheduler)
         iteration += 1
-        args.consumed_train_samples += mpu.get_data_parallel_world_size() * \
-                                       args.micro_batch_size * \
-                                       get_num_microbatches()
+        args.consumed_train_samples += mpu.get_data_parallel_world_size() * args.micro_batch_size * get_num_microbatches()
 
         # Logging.
         loss_scale = optimizer.get_loss_scale().item()
@@ -800,7 +788,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
         saved_checkpoint = False
         if args.exit_signal_handler:
             signal_handler = get_signal_handler()
-            if any(signal_handler.signals_received()):
+            if any(signal_handler.signals_received()):  # type: ignore
                 save_checkpoint_and_time(iteration, model, optimizer,
                                          opt_param_scheduler)
                 print_datetime('exiting program after receiving SIGTERM.')
@@ -815,7 +803,7 @@ def train(forward_step_func, model, optimizer, opt_param_scheduler,
         # Exiting based on duration
         if args.exit_duration_in_mins:
             train_time = (time.time() - _TRAIN_START_TIME) / 60.0
-            done_cuda = torch.cuda.IntTensor(
+            done_cuda = torch.cuda.IntTensor(  # type: ignore
                 [train_time > args.exit_duration_in_mins])
             torch.distributed.all_reduce(
                 done_cuda, op=torch.distributed.ReduceOp.MAX)
@@ -876,14 +864,12 @@ def evaluate(forward_step_func,
                 for loss_dict in loss_dicts:
                     for key in loss_dict:
                         total_loss_dict[key] = total_loss_dict.get(
-                            key, torch.cuda.FloatTensor([0.0])) + loss_dict[key]
+                            key, torch.cuda.FloatTensor([0.0])) + loss_dict[key]  # type: ignore
 
-            args.consumed_valid_samples += mpu.get_data_parallel_world_size() \
-                                           * args.micro_batch_size \
-                                           * get_num_microbatches()
+            args.consumed_valid_samples += mpu.get_data_parallel_world_size() * args.micro_batch_size * get_num_microbatches()
         collected_non_loss_data = None
         if process_non_loss_data_func is not None and is_last_rank():
-            collected_non_loss_data = forward_backward_func(
+            collected_non_loss_data = forward_backward_func(  # type: ignore
                 forward_step_func, data_iterator, model, optimizer=None,
                 timers=None, forward_only=True, collect_non_loss_data=True)
 
@@ -1019,10 +1005,10 @@ def build_train_valid_test_data_loaders(
         do_valid = valid_dataloader is not None and args.eval_iters > 0
         do_test = test_dataloader is not None and args.eval_iters > 0
         # Need to broadcast num_tokens and num_type_tokens.
-        flags = torch.cuda.LongTensor(
+        flags = torch.cuda.LongTensor(  # type: ignore
             [int(do_train), int(do_valid), int(do_test)])
     else:
-        flags = torch.cuda.LongTensor([0, 0, 0])
+        flags = torch.cuda.LongTensor([0, 0, 0])  # type: ignore
 
     # Broadcast num tokens.
     torch.distributed.broadcast(flags,
@@ -1051,20 +1037,17 @@ def build_train_valid_test_data_iterators(
     assert dl_type in ['single', 'cyclic']
 
     if train_dataloader is not None:
-        train_data_iterator = iter(train_dataloader) if dl_type == 'single' \
-                              else iter(cyclic_iter(train_dataloader))
+        train_data_iterator = iter(train_dataloader) if dl_type == 'single' else iter(cyclic_iter(train_dataloader))
     else:
         train_data_iterator = None
 
     if valid_dataloader is not None:
-        valid_data_iterator = iter(valid_dataloader) if dl_type == 'single' \
-                              else iter(cyclic_iter(valid_dataloader))
+        valid_data_iterator = iter(valid_dataloader) if dl_type == 'single' else iter(cyclic_iter(valid_dataloader))
     else:
         valid_data_iterator = None
 
     if test_dataloader is not None:
-        test_data_iterator = iter(test_dataloader) if dl_type == 'single' \
-                             else iter(cyclic_iter(test_dataloader))
+        test_data_iterator = iter(test_dataloader) if dl_type == 'single' else iter(cyclic_iter(test_dataloader))
     else:
         test_data_iterator = None
 

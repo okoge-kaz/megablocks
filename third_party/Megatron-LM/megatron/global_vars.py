@@ -66,7 +66,7 @@ def get_adlr_autoresume():
 def get_timers():
     """Return timers."""
     _ensure_var_is_initialized(_GLOBAL_TIMERS, 'timers')
-    return _GLOBAL_TIMERS
+    return typing.cast(Timers, _GLOBAL_TIMERS)
 
 
 def get_signal_handler():
