@@ -42,4 +42,4 @@ pip install zarr
 pip install tensorstore
 
 # megablcoks (gpu is needed for the cuda kernels)
-pip install .
+pip install -e .
