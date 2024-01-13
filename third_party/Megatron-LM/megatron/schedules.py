@@ -137,7 +137,7 @@ def forward_step(forward_step_func,
     lbl_loss = None
     if mpu.is_pipeline_last_stage():
         if not collect_non_loss_data:
-            print(f"DEBUG: forward_step loss_func={loss_func}, is_eval={is_eval}")
+            # print(f"DEBUG: forward_step loss_func={loss_func}, is_eval={is_eval}")
             output_tensor = loss_func(output_tensor, is_eval)
             loss, loss_reduced = output_tensor
             output_tensor = loss / get_num_microbatches()
