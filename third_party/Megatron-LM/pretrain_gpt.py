@@ -74,7 +74,7 @@ def loss_func(loss_mask, output_tensor):
     return loss, {'lm loss': averaged_loss[0]}
 
 
-def moe_loss_func(loss_mask, output_tensor=None):
+def moe_loss_func(loss_mask, output_tensor=None, is_eval=False):
     # NOTE: For pipeline parallelism this function will be run on the
     # non-final stages to calculate load balancing loss contribution
     # for the MoE layers within the stage. For these cases, output_tensor
@@ -84,6 +84,9 @@ def moe_loss_func(loss_mask, output_tensor=None):
         assert output_tensor is not None
         loss, loss_dict = loss_func(loss_mask, output_tensor)
         assert loss.numel() == 1
+
+    if is_eval:
+        return loss, loss_dict
 
     # NOTE: If recompute is enabled we will collect duplicate load
     # balancing loss contributions. Prune these before calculating

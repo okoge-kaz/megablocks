@@ -283,7 +283,8 @@ def forward_backward_no_pipelining(
                 input_tensor,
                 forward_data_store,
                 timers,
-                collect_non_loss_data
+                collect_non_loss_data,
+                is_eval=forward_only,  # forward only = eval
             )
             if not forward_only:
                 backward_step(
@@ -296,9 +297,16 @@ def forward_backward_no_pipelining(
 
     # Run computation for last microbatch out of context handler (want to
     # synchronize gradients).
-    output_tensor = forward_step(forward_step_func, data_iterator,
-                                 model, input_tensor, forward_data_store,
-                                 timers, collect_non_loss_data)
+    output_tensor = forward_step(
+        forward_step_func=forward_step_func,
+        data_iterator=data_iterator,
+        model=model,
+        input_tensor=input_tensor,
+        forward_data_store=forward_data_store,
+        timers=timers,
+        collect_non_loss_data=collect_non_loss_data,
+        is_eval=forward_only,  # forward only = eval
+    )
     if not forward_only:
         backward_step(optimizer, input_tensor, output_tensor,
                       output_tensor_grad, timers)
