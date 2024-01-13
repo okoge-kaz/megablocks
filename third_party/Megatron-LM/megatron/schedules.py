@@ -146,9 +146,10 @@ def forward_step(forward_step_func,
             data = loss_func(output_tensor, non_loss_data=True)
             forward_data_store.append(data)
     elif args.model_type == ModelType.encoder_or_decoder_with_lbl:
-        lbl_loss, lbl_loss_reduced = loss_func()
-        lbl_loss = lbl_loss / get_num_microbatches()
-        forward_data_store.append(lbl_loss_reduced)
+        lbl_loss, lbl_loss_reduced = loss_func(output_tensor=None, is_eval=is_eval)
+        if not is_eval:  # if training
+            lbl_loss = lbl_loss / get_num_microbatches()
+            forward_data_store.append(lbl_loss_reduced)
 
     if timers is not None:
         timers('forward-compute').stop()
@@ -396,7 +397,9 @@ def forward_backward_pipelining_with_interleaving(forward_step_func,
                                      input_tensor,
                                      forward_data_store,
                                      timers,
-                                     collect_non_loss_data)
+                                     collect_non_loss_data,
+                                     forward_only,
+                                     )
         output_tensors[model_chunk_id].append(output_tensor)
 
         # if forward-only, no need to save tensors for a backward pass
@@ -738,7 +741,9 @@ def forward_backward_pipelining_without_interleaving(forward_step_func,
         input_tensor = recv_forward(recv_tensor_shapes, timers=timers)
         output_tensor = forward_step(forward_step_func, data_iterator, model,
                                      input_tensor, forward_data_store,
-                                     timers, collect_non_loss_data)
+                                     timers, collect_non_loss_data,
+                                     forward_only,
+                                     )
 
         # If model has LBL, don't send LBL to next rank.
         output_tensor_to_send = output_tensor[0] \
@@ -768,7 +773,8 @@ def forward_backward_pipelining_without_interleaving(forward_step_func,
             input_tensor,  # type: ignore
             forward_data_store,
             timers,
-            collect_non_loss_data
+            collect_non_loss_data,
+            forward_only,
         )
 
         # If model has LBL, don't send LBL to next rank.
