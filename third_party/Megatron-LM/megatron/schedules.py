@@ -275,7 +275,7 @@ def forward_backward_no_pipelining(
     input_tensor, output_tensor_grad = None, None
 
     with context_handler():
-        for i in range(get_num_microbatches() - 1):
+        for i in range(get_num_microbatches() - 1):  # type: ignore
             output_tensor = forward_step(
                 forward_step_func,
                 data_iterator,
