@@ -47,9 +47,9 @@ done <"$SGE_JOB_HOSTLIST" >"$HOSTFILE_NAME"
 TRAIN_ITERATIONS=63312
 
 # MoE hyperparameters.
-NUM_EXPERTS=16
-CAPACITY_FACTOR=1
-TOP_K=1
+NUM_EXPERTS=8
+CAPACITY_FACTOR=0
+TOP_K=2
 LOSS_WEIGHT=0.1
 
 # Pre-training for MoE 356M parameter.
@@ -159,12 +159,12 @@ mpirun -np $NUM_GPUS \
   --tensor-model-parallel-size 2 \
   --moe-expert-model-parallelism \
   --no-async-tensor-model-parallel-allreduce \
-  --save-interval 1000 \
+  --save-interval 500 \
   --save ${CHECKPOINT_DIR} \
   --load ${CHECKPOINT_DIR} \
-  --eval-iters 50 \
+  --eval-iters 5 \
   --log-interval 1 \
-  --eval-interval 10 \
+  --eval-interval 5 \
   --use-flash-attn \
   --use-mpi \
   --wandb-entity "okoge" \
