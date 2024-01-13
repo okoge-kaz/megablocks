@@ -112,7 +112,8 @@ def forward_step(forward_step_func,
                  input_tensor,
                  forward_data_store,
                  timers,
-                 collect_non_loss_data=False):
+                 collect_non_loss_data=False,
+                 is_eval=False):
     """Forward step for passed-in model.
 
     If first stage, input tensor is obtained from data_iterator, otherwise
