@@ -412,10 +412,10 @@ class ParallelMLP(torch.nn.Module):
             indices,
             bin_ids,
             expert_weights,
-            bins,
+            bins,  # type: ignore
             self.top_k,
             self.args.quantize_scatter_num_bits)
-        return x, tokens_per_expert.flatten()
+        return x, tokens_per_expert.flatten()  # type: ignore
 
     def forward(self, x, scores, expert_weights, top_experts):
         in_shape = x.size()
@@ -425,7 +425,7 @@ class ParallelMLP(torch.nn.Module):
             x, expert_weights, top_experts)
         if self.training:
             save_load_balancing_loss((tokens_per_expert, scores))
-        x = x.view(in_shape)
+        x = x.view(in_shape)  # type: ignore
         if self.bias is not None:
             if self.args.return_bias:
                 return x, self.bias

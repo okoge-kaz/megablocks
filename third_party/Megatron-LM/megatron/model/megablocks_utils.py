@@ -17,17 +17,17 @@ def assert_megablocks_is_available():
 
 def param_is_expert_model_parallel(param):
     if megablocks_is_available():
-        return megablocks.layers.mpu.param_is_expert_model_parallel(param)
+        return megablocks.layers.mpu.param_is_expert_model_parallel(param)  # type: ignore
     return False
 
 
 def copy_expert_model_parallel_attributes(destination_tensor, source_tensor):
     if not megablocks_is_available():
         return
-    megablocks.layers.mpu.copy_expert_model_parallel_attributes(
+    megablocks.layers.mpu.copy_expert_model_parallel_attributes(  # type: ignore
         destination_tensor, source_tensor)
 
 
-moe = megablocks.layers.moe if megablocks_is_available() else None
-dmoe = megablocks.layers.dmoe if megablocks_is_available() else None
-arguments = megablocks.layers.arguments if megablocks_is_available() else None
+moe = megablocks.layers.moe if megablocks_is_available() else None  # type: ignore
+dmoe = megablocks.layers.dmoe if megablocks_is_available() else None  # type: ignore
+arguments = megablocks.layers.arguments if megablocks_is_available() else None  # type: ignore
