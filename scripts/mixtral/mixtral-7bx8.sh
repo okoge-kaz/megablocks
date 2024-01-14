@@ -64,7 +64,7 @@ LR=1.0e-4
 MIN_LR=1.0e-6
 INIT_STD=0.02
 
-SEQUENCE_LENGTH=1024
+SEQUENCE_LENGTH=2048
 
 WEIGHT_DECAY=0.1
 
@@ -112,7 +112,7 @@ VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 147265562 ${VALIDATION_DATASET_PAT
 VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 1097003 ${VALIDATION_DATASET_PATH}/ja_wiki_validation_0_text_document"
 
 # checkpoint settings
-CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/mixtral-7bx8_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb/
+CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/mixtral-7bx8_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb-pp-test
 
 mkdir -p ${CHECKPOINT_DIR}
 
@@ -120,8 +120,8 @@ mkdir -p ${CHECKPOINT_DIR}
 alias ldconfig=/usr/sbin/ldconfig
 
 # distributed settings
-TENSER_MODEL_PARALLEL_SIZE=4
-PIPELINE_MODEL_PARALLEL_SIZE=4
+TENSER_MODEL_PARALLEL_SIZE=2
+PIPELINE_MODEL_PARALLEL_SIZE=32
 
 # run
 mpirun -np $NUM_GPUS \
@@ -165,7 +165,7 @@ mpirun -np $NUM_GPUS \
   --pipeline-model-parallel-size ${PIPELINE_MODEL_PARALLEL_SIZE} \
   --moe-expert-model-parallelism \
   --no-async-tensor-model-parallel-allreduce \
-  --save-interval 500 \
+  --save-interval 20 \
   --save ${CHECKPOINT_DIR} \
   --load ${CHECKPOINT_DIR} \
   --eval-iters 10 \
@@ -176,9 +176,9 @@ mpirun -np $NUM_GPUS \
   --recompute-granularity full \
   --no-bias-gelu-fusion \
   --use-mpi \
-  --wandb-entity "okoge" \
+  --wandb-entity "prj-jalm" \
   --wandb-project "megablock" \
-  --wandb-name "Mixtral-7Bx8_expert=${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
+  --wandb-name "Mixtral-7Bx${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
 
 # normalization
 # recompute-gradularity
