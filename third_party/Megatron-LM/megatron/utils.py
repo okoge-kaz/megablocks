@@ -1,26 +1,37 @@
 # Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
 
 """General utilities."""
-
+import argparse
 import sys
 
 import torch
-from torch.nn.parallel import DistributedDataParallel as torchDDP
 
-from apex.multi_tensor_apply import multi_tensor_applier
-import amp_C
+try:
+    from apex.multi_tensor_apply import multi_tensor_applier
+except ImportError:
+    multi_tensor_applier = None
+
+try:
+    import amp_C
+except ImportError:
+    amp_C = None
 
 from megatron import (
     get_args,
     get_adlr_autoresume,
-    get_num_microbatches,
+    get_num_microbatches
 )
 from megatron.core import mpu
 from megatron.core.tensor_parallel import param_is_not_tensor_parallel_duplicate
+from megatron.model import DistributedDataParallel as DDP
+from megatron.model import Float16Module
 from megatron.model.module import param_is_not_shared
 
 
-def unwrap_model(model, module_instances=(torchDDP)):
+ALL_MODULE_WRAPPER_CLASSNAMES = (DDP, Float16Module)
+
+
+def unwrap_model(model, module_instances=ALL_MODULE_WRAPPER_CLASSNAMES):
     return_list = True
     if not isinstance(model, list):
         model = [model]
@@ -44,26 +55,38 @@ def calc_params_l2_norm(model):
     params_data = []
     for model_ in model:
         for param in model_.parameters():
-            is_not_shared = param_is_not_shared(param)
-            is_not_tp_duplicate = param_is_not_tensor_parallel_duplicate(param)
-            if is_not_shared and is_not_tp_duplicate:
-                if args.bf16:
-                    params_data.append(param.data.float())
-                else:
-                    params_data.append(param.data)
+            if args.expert_parallel and mpu.get_data_parallel_rank() > 0:
+                if not getattr(param, 'allreduce', True):
+                    assert param_is_not_shared(param)
+                    assert param_is_not_tensor_parallel_duplicate(param)
+                    params_data.append(param.data.float() if args.bf16 else param.data)
+            else:
+                is_not_shared = param_is_not_shared(param)
+                is_not_tp_duplicate = param_is_not_tensor_parallel_duplicate(param)
+                if is_not_shared and is_not_tp_duplicate:
+                    params_data.append(param.data.float() if args.bf16 else param.data)
+
+    # Check the availability of apex
+    assert multi_tensor_applier is not None and amp_C is not None, \
+        "apex is not available, please install it from https://github.com/NVIDIA/apex"
+
     # Calculate norm
-    dummy_overflow_buf = torch.cuda.IntTensor([0])
+    dummy_overflow_buf = torch.cuda.IntTensor([0])  # type: ignore
     norm, _ = multi_tensor_applier(
         amp_C.multi_tensor_l2norm,
         dummy_overflow_buf,
         [params_data],
-        False # no per-parameter norm
+        False  # no per-parameter norm
     )
     norm_2 = norm * norm
     # Sum across all model-parallel GPUs.
-    torch.distributed.all_reduce(norm_2,
-                                 op=torch.distributed.ReduceOp.SUM,
-                                 group=mpu.get_model_parallel_group())
+    if not args.expert_parallel:
+        torch_distributed.all_reduce(norm_2,
+                                     op=torch_distributed.ReduceOp.SUM,
+                                     group=mpu.get_model_parallel_group())
+    else:
+        torch_distributed.all_reduce(norm_2,
+                                     op=torch_distributed.ReduceOp.SUM)
     return norm_2.item() ** 0.5
 
 
@@ -71,10 +94,10 @@ def average_losses_across_data_parallel_group(losses):
     """Reduce a tensor of losses across all GPUs."""
     averaged_losses = torch.cat(
         [loss.clone().detach().view(1) for loss in losses])
-    torch.distributed.all_reduce(averaged_losses,
+    torch_distributed.all_reduce(averaged_losses,
                                  group=mpu.get_data_parallel_group())
     averaged_losses = averaged_losses / \
-        torch.distributed.get_world_size(group=mpu.get_data_parallel_group())
+        torch_distributed.get_world_size(group=mpu.get_data_parallel_group())
 
     return averaged_losses
 
@@ -92,14 +115,14 @@ def report_memory(name):
     string += ' | max reserved: {}'.format(
         torch.cuda.max_memory_reserved() / mega_bytes)
     if mpu.get_data_parallel_rank() == 0:
-        print("[Rank {}] {}".format(torch.distributed.get_rank(), string),
+        print("[Rank {}] {}".format(torch_distributed.get_rank(), string),
               flush=True)
 
 
 def print_params_min_max_norm(optimizer, iteration):
     """Print min, max, and norm of all parameters."""
     index = 0
-    rank = torch.distributed.get_rank()
+    rank = torch_distributed.get_rank()
     string = 'iteration, rank, index, tensor-model-parallel, min, max, norm\n'
     optimizer_ = optimizer.optimizer
     for param_group in optimizer_.param_groups:
@@ -122,13 +145,13 @@ def check_adlr_autoresume_termination(iteration, model,
     args = get_args()
     autoresume = get_adlr_autoresume()
     # Add barrier to ensure consistnecy.
-    torch.distributed.barrier()
-    if autoresume.termination_requested():
+    torch_distributed.barrier()
+    if autoresume.termination_requested():  # type: ignore
         if args.save:
             save_checkpoint(iteration, model, optimizer, opt_param_scheduler)
         print_rank_0(">>> autoresume termination request found!")
-        if torch.distributed.get_rank() == 0:
-            autoresume.request_resume()
+        if torch_distributed.get_rank() == 0:
+            autoresume.request_resume()  # type: ignore
         print_rank_0(">>> training terminated. Returning")
         sys.exit(0)
 
@@ -195,21 +218,21 @@ def get_ltor_masks_and_position_ids(data,
 
 def print_rank_0(message):
     """If distributed is initialized, print only on rank 0."""
-    if torch.distributed.is_initialized():
-        if torch.distributed.get_rank() == 0:
+    if torch_distributed.is_initialized():
+        if torch_distributed.get_rank() == 0:
             print(message, flush=True)
     else:
         print(message, flush=True)
 
 
 def is_last_rank():
-    return torch.distributed.get_rank() == (
-        torch.distributed.get_world_size() - 1)
+    return torch_distributed.get_rank() == (
+        torch_distributed.get_world_size() - 1)
 
 
 def print_rank_last(message):
     """If distributed is initialized, print only on last rank."""
-    if torch.distributed.is_initialized():
+    if torch_distributed.is_initialized():
         if is_last_rank():
             print(message, flush=True)
     else:
@@ -219,7 +242,11 @@ def print_rank_last(message):
 import torch.distributed as torch_distributed
 
 
-def throughput_calculator(args, iteration_time, total_iterations):
+def throughput_calculator(
+    args: argparse.Namespace,
+    iteration_time: float,
+    total_iterations: int,
+) -> tuple[float, float, int, int]:
     gpus_per_model: int = torch_distributed.get_world_size(group=mpu.get_model_parallel_group())
     batch_size: int = args.micro_batch_size * get_num_microbatches() * args.data_parallel_size
     samples_per_model: int = batch_size * args.seq_length
@@ -231,22 +258,46 @@ def throughput_calculator(args, iteration_time, total_iterations):
     hidden_size: int = args.hidden_size
     num_layers: int = args.num_layers
     vocab_size: int = args.padded_vocab_size
+    intermediate_size: int = args.ffn_hidden_size
 
     # General TFLOPs formula (borrowed from Equation 3 in Section 5.1 of
     # https://arxiv.org/pdf/2104.04473.pdf).
     # The factor of 4 is when used with activation check-pointing,
+    # SwiGLU: https://github.com/bigscience-workshop/Megatron-DeepSpeed/pull/283
     # otherwise it will be 3.
-    checkpoint_activations_factor = 3
+    checkpoint_activations_factor: int = 3
+    selective_recompute_factor: int = 1
     if hasattr(args, 'checkpoint_activations') and args.checkpoint_activations:
         checkpoint_activations_factor = 4
-    if hasattr(args, 'recompute_granularity') and (args.recompute_granularity == 'selective' or args.recompute_granularity == 'full'):
+    if hasattr(args, 'recompute_granularity') and (args.recompute_granularity == 'full'):
         checkpoint_activations_factor = 4
+    if hasattr(args, 'recompute_granularity') and (args.recompute_granularity == 'selective'):
+        # add forward attention matrix computation & attention over Values (later)
+        checkpoint_activations_factor = 3
+        selective_recompute_factor = 2
 
     seq_len: int = args.seq_length
     if hasattr(args, 'actual_seq_length'):
         seq_len: int = args.actual_seq_length
 
-    flops_per_iteration: float = (24 * checkpoint_activations_factor * batch_size * seq_len * num_layers * (hidden_size**2)) * (1. + (seq_len / (6. * hidden_size)) + (vocab_size / (16. * num_layers * hidden_size)))
+    activation_function_factor: int = 4  # GELU
+    if args.swiglu:
+        activation_function_factor = 4 + 2  # SWiGLU (upscaling + down scaling)
+
+    # 2: post-attention linear projection
+    # 2 * 3: Key, Query, and Value transformation
+    # / args.num_query_groups : GQA: Grouped Query Attention (default: num_query_groups=1)
+    flops_per_iteration: float = checkpoint_activations_factor * ((
+        (2 + (2 * 3) + activation_function_factor * (intermediate_size / hidden_size)) * batch_size * seq_len * num_layers * (hidden_size**2)
+    ) + (
+        ((  # Attention matrix & attention over values
+            4 * batch_size * (seq_len ** 2) * hidden_size
+        ) / args.num_query_groups * selective_recompute_factor
+        ) +  # noqa: W504
+        # lm-head: logit layer
+        2 * batch_size * seq_len * hidden_size * vocab_size)
+    )
+
     tflops: float = flops_per_iteration / (elapsed_time_per_iter * args.world_size * (10**12))
 
     return samples_per_second, tflops, samples_per_model, model_replica_count

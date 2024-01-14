@@ -1,15 +1,13 @@
-# Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2023, NVIDIA CORPORATION. All rights reserved.
 
 import enum
-
-class ModelType(enum.Enum):
-    encoder_or_decoder = 1
-    encoder_and_decoder = 2
-    encoder_or_decoder_with_lbl = 3
 
 class LayerType(enum.Enum):
     encoder = 1
     decoder = 2
+    retro_encoder = 3
+    retro_decoder = 4
+    retro_decoder_with_retriever = 5
  
 class AttnType(enum.Enum):
     self_attn = 1
@@ -18,3 +16,6 @@ class AttnType(enum.Enum):
 class AttnMaskType(enum.Enum):
     padding = 1
     causal = 2
+
+# For backward compatibility with old model checkpoints
+from megatron.core.enums import ModelType
