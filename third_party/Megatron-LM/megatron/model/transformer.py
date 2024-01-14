@@ -40,6 +40,7 @@ except ImportError:
         hyperparameters: transformer hyperparameters
 """
 
+
 class DropPath(MegatronModule):
     """Drop paths (Stochastic Depth) per sample
     (when applied in main path of residual blocks).
@@ -62,6 +63,7 @@ class DropPath(MegatronModule):
         output = hidden_state.div(keep_prob) * random_tensor
         return output
 
+
 def _args_to_kwargs():
     args = get_args()
 
@@ -73,6 +75,7 @@ def _args_to_kwargs():
         "sequence_parallel_enabled": args.sequence_parallel,
     }
     return common_kwargs
+
 
 class ParallelMLP(MegatronModule):
     """MLP.
@@ -128,6 +131,7 @@ class ParallelMLP(MegatronModule):
         # [s, b, h]
         output, output_bias = self.dense_4h_to_h(intermediate_parallel)
         return output, output_bias
+
 
 class SwitchMLP(MegatronModule):
     """
@@ -199,6 +203,7 @@ class _MegablocksAdapter(MegatronModule):
     def forward(self, x):
         return self.moe.forward(x)
 
+
 class MoE(_MegablocksAdapter):
 
     def __init__(self, init_method, output_layer_init_method):
@@ -206,12 +211,14 @@ class MoE(_MegablocksAdapter):
         super().__init__(
             megablocks_utils.moe.MoE, init_method, output_layer_init_method)
 
+
 class dMoE(_MegablocksAdapter):
 
     def __init__(self, init_method, output_layer_init_method):
         megablocks_utils.assert_megablocks_is_available()
         super().__init__(
             megablocks_utils.dmoe.dMoE, init_method, output_layer_init_method)
+
 
 class CoreAttention(MegatronModule):
 
