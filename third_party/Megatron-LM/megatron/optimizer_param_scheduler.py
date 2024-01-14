@@ -4,12 +4,13 @@
 
 import math
 
-from megatron import print_rank_0
+from megatron import print_rank_0, get_args
+
 
 class OptimizerParamScheduler(object):
     """Anneals learning rate and weight decay"""
 
-    def __init__(self, optimizer, max_lr, min_lr,
+    def __init__(self, optimizer, init_lr, max_lr, min_lr,
                  lr_warmup_steps, lr_decay_steps, lr_decay_style,
                  start_wd, end_wd, wd_incr_steps, wd_incr_style,
                  use_checkpoint_opt_param_scheduler=True,
@@ -18,10 +19,12 @@ class OptimizerParamScheduler(object):
         # Class values.
         self.optimizer = optimizer
 
+        self.init_lr = init_lr
         self.max_lr = float(max_lr)
         self.min_lr = min_lr
         assert self.min_lr >= 0.0
         assert self.max_lr >= self.min_lr
+        assert self.init_lr <= self.max_lr
 
         self.lr_warmup_steps = lr_warmup_steps
         self.num_steps = 0
@@ -80,8 +83,14 @@ class OptimizerParamScheduler(object):
 
         # Use linear warmup for the initial part.
         if self.lr_warmup_steps > 0 and self.num_steps <= self.lr_warmup_steps:
-            return self.max_lr * float(self.num_steps) / \
-                float(self.lr_warmup_steps)
+            return (
+                self.init_lr
+                + (
+                    (self.max_lr - self.init_lr)
+                    * float(self.num_steps)
+                    / float(self.lr_warmup_steps)
+                )
+            )
 
         # If the learning rate is constant, just return the initial value.
         if self.lr_decay_style == 'constant':
@@ -115,16 +124,17 @@ class OptimizerParamScheduler(object):
 
         return self.min_lr + coeff * delta_lr
 
-
-    def step(self, increment):
+    def step(self, increment, token_num=None):
         """Set lr for all parameters groups."""
+        if token_num is None:
+            args = get_args()
+            token_num = args.consumed_train_tokens
         self.num_steps += increment
         new_lr = self.get_lr()
         new_wd = self.get_wd()
         for group in self.optimizer.param_groups:
             group['lr'] = new_lr * group.get('lr_mult', 1.0)
             group['weight_decay'] = new_wd * group.get('wd_mult', 1.0)
-
 
     def state_dict(self):
         state_dict = {
@@ -141,7 +151,6 @@ class OptimizerParamScheduler(object):
         }
         return state_dict
 
-
     def _check_and_set(self, cls_value, sd_value, name):
         """Auxiliary function for checking the values in the checkpoint and
         setting them."""
@@ -156,7 +165,6 @@ class OptimizerParamScheduler(object):
         print_rank_0(' > using checkpoint value {} for {}'.format(sd_value,
                                                                   name))
         return sd_value
-
 
     def load_state_dict(self, sd):
 

@@ -1,6 +1,7 @@
 # Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
 
 """Megatron global variables."""
+
 import argparse
 import os
 import sys
@@ -13,6 +14,7 @@ from .microbatches import build_num_microbatches_calculator
 from .timers import Timers
 
 _GLOBAL_ARGS = None
+_GLOBAL_RETRO_ARGS = None
 _GLOBAL_NUM_MICROBATCHES_CALCULATOR = None
 _GLOBAL_TOKENIZER = None
 _GLOBAL_TENSORBOARD_WRITER = None
@@ -26,6 +28,11 @@ def get_args() -> argparse.Namespace:
     """Return arguments."""
     _ensure_var_is_initialized(_GLOBAL_ARGS, 'args')
     return typing.cast(argparse.Namespace, _GLOBAL_ARGS)
+
+
+def get_retro_args():
+    """Return retro arguments."""
+    return _GLOBAL_RETRO_ARGS
 
 
 def get_num_microbatches():
@@ -80,7 +87,7 @@ def _set_signal_handler():
     _GLOBAL_SIGNAL_HANDLER = dist_signal_handler.DistributedSignalHandler().__enter__()
 
 
-def set_global_variables(args, build_tokenizer=True):
+def set_global_variables(args: argparse.Namespace, build_tokenizer=True) -> None:
     """Set args, tokenizer, tensorboard-writer, adlr-autoresume, and timers."""
 
     assert args is not None
@@ -100,12 +107,17 @@ def set_global_variables(args, build_tokenizer=True):
         _set_signal_handler()
 
 
-def set_args(args):
+def set_args(args: argparse.Namespace) -> None:
     global _GLOBAL_ARGS
     _GLOBAL_ARGS = args
 
 
-def _build_num_microbatches_calculator(args):
+def set_retro_args(retro_args):
+    global _GLOBAL_RETRO_ARGS
+    _GLOBAL_RETRO_ARGS = retro_args
+
+
+def _build_num_microbatches_calculator(args: argparse.Namespace) -> None:
 
     global _GLOBAL_NUM_MICROBATCHES_CALCULATOR
     _ensure_var_is_not_initialized(_GLOBAL_NUM_MICROBATCHES_CALCULATOR,
@@ -115,7 +127,7 @@ def _build_num_microbatches_calculator(args):
         args)
 
 
-def _build_tokenizer(args):
+def _build_tokenizer(args: argparse.Namespace):
     """Initialize tokenizer."""
     global _GLOBAL_TOKENIZER
     _ensure_var_is_not_initialized(_GLOBAL_TOKENIZER, 'tokenizer')
@@ -123,20 +135,19 @@ def _build_tokenizer(args):
     return _GLOBAL_TOKENIZER
 
 
-def rebuild_tokenizer(args):
+def rebuild_tokenizer(args: argparse.Namespace):
     global _GLOBAL_TOKENIZER
     _GLOBAL_TOKENIZER = None
     return _build_tokenizer(args)
 
 
-def _set_tensorboard_writer(args):
+def _set_tensorboard_writer(args: argparse.Namespace):
     """Set tensorboard writer."""
     global _GLOBAL_TENSORBOARD_WRITER
     _ensure_var_is_not_initialized(_GLOBAL_TENSORBOARD_WRITER,
                                    'tensorboard writer')
 
-    if hasattr(args, 'tensorboard_dir') and \
-       args.tensorboard_dir and args.rank == (args.world_size - 1):
+    if hasattr(args, 'tensorboard_dir') and args.tensorboard_dir and args.rank == (args.world_size - 1):
         try:
             from torch.utils.tensorboard.writer import SummaryWriter
             print('> setting tensorboard ...')
@@ -188,7 +199,7 @@ def _set_wandb_writer(args: argparse.Namespace) -> None:
             )
 
 
-def _set_adlr_autoresume(args):
+def _set_adlr_autoresume(args: argparse.Namespace):
     """Initialize ADLR autoresume."""
     global _GLOBAL_ADLR_AUTORESUME
     _ensure_var_is_not_initialized(_GLOBAL_ADLR_AUTORESUME, 'adlr autoresume')
@@ -206,7 +217,7 @@ def _set_adlr_autoresume(args):
         _GLOBAL_ADLR_AUTORESUME = AutoResume
 
 
-def _set_timers(args):
+def _set_timers(args: argparse.Namespace):
     """Initialize timers."""
     global _GLOBAL_TIMERS
     _ensure_var_is_not_initialized(_GLOBAL_TIMERS, 'timers')
