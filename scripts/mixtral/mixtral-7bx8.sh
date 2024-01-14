@@ -64,7 +64,7 @@ LR=1.0e-4
 MIN_LR=1.0e-6
 INIT_STD=0.02
 
-SEQUENCE_LENGTH=4096
+SEQUENCE_LENGTH=1024
 
 WEIGHT_DECAY=0.1
 
@@ -120,7 +120,7 @@ mkdir -p ${CHECKPOINT_DIR}
 alias ldconfig=/usr/sbin/ldconfig
 
 # distributed settings
-TENSER_MODEL_PARALLEL_SIZE=2
+TENSER_MODEL_PARALLEL_SIZE=4
 PIPELINE_MODEL_PARALLEL_SIZE=4
 
 # run
@@ -168,9 +168,9 @@ mpirun -np $NUM_GPUS \
   --save-interval 500 \
   --save ${CHECKPOINT_DIR} \
   --load ${CHECKPOINT_DIR} \
-  --eval-iters 5 \
+  --eval-iters 10 \
   --log-interval 1 \
-  --eval-interval 5 \
+  --eval-interval 100 \
   --use-flash-attn \
   --recompute-activations \
   --recompute-granularity full \
