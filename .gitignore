@@ -7,11 +7,8 @@ wandb/*
 gpt2-merges.txt
 gpt2-vocab.json
 BookCorpus*
-core
 __pycache__
 *.egg-info
-dist
-build
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
