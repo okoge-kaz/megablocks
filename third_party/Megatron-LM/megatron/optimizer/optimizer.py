@@ -1,4 +1,4 @@
-# Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2023, NVIDIA CORPORATION. All rights reserved.
 
 """Megatron optimizer."""
 
@@ -7,14 +7,11 @@ from abc import abstractmethod
 from apex.multi_tensor_apply import multi_tensor_applier
 import amp_C
 import torch
-from torch.nn.parallel.distributed import DistributedDataParallel as torchDDP
 from torch._utils import _flatten_dense_tensors, _unflatten_dense_tensors
 
-from megatron import get_args
 from megatron import get_timers
 from megatron import print_rank_0
 from megatron.core import mpu, tensor_parallel
-from megatron.model import DistributedDataParallel as LocalDDP
 from megatron.model import Float16Module, megablocks_utils
 from megatron.model.module import param_is_not_shared
 from megatron.utils import unwrap_model
@@ -60,8 +57,8 @@ class MegatronOptimizer(ABC):
 
     def __init__(self, optimizer, clip_grad,
                  log_num_zeros_in_grad,
+                 check_for_nan_in_grad,
                  params_have_main_grad,
-                 use_contiguous_buffers_in_local_ddp,
                  models):
 
         """Input optimizer is the base optimizer for example Adam."""
@@ -70,16 +67,12 @@ class MegatronOptimizer(ABC):
         # Set gradient clipping and logging params.
         self.clip_grad = clip_grad
         self.log_num_zeros_in_grad = log_num_zeros_in_grad
+        self.check_for_nan_in_grad = check_for_nan_in_grad
         self.params_have_main_grad = params_have_main_grad
-        self.use_contiguous_buffers_in_local_ddp = use_contiguous_buffers_in_local_ddp
 
         # 'models' are retained for access to the contiguous grad buffers.
         # (see distributed optimizer)
         self.models = models
-
-        if self.use_contiguous_buffers_in_local_ddp:
-            assert self.params_have_main_grad, \
-                "use of contiguous buffer requires that params have main grad"
 
 
     def get_parameters(self):
@@ -114,11 +107,12 @@ class MegatronOptimizer(ABC):
         return mpu.get_model_parallel_group()
 
 
-    def clip_grad_norm(self, clip_grad):
+    def clip_grad_norm(self, clip_grad, check_for_nan_in_grad):
         params = self.get_parameters()
         grads_for_norm = self.get_main_grads_for_grad_norm()
         return clip_grad_norm_fp32(
             params, grads_for_norm, clip_grad,
+            check_for_nan_in_grad,
             model_parallel_group=self.get_model_parallel_group())
 
 
@@ -217,15 +211,11 @@ class MegatronOptimizer(ABC):
                 unwrapped_model = self.models[-1]
             else:  # We do not support the interleaved schedule for T5 yet.
                 unwrapped_model = self.models[0]
-            unwrapped_model = unwrap_model(
-                unwrapped_model, (torchDDP, LocalDDP, Float16Module))
+            unwrapped_model = unwrap_model(unwrapped_model)
 
-            if unwrapped_model.share_word_embeddings:
-                word_embeddings_weight = unwrapped_model.word_embeddings_weight()
-                if args.DDP_impl == 'local':
-                    grad = word_embeddings_weight.main_grad
-                else:
-                    grad = word_embeddings_weight.grad
+            if unwrapped_model.share_embeddings_and_output_weights:
+                weight = unwrapped_model.shared_embedding_or_output_weight()
+                grad = weight.main_grad
                 torch.distributed.all_reduce(grad, group=mpu.get_embedding_group())
 
 
@@ -240,10 +230,7 @@ class MegatronOptimizer(ABC):
                 mpu.get_pipeline_model_parallel_world_size() > 1 and \
                 args.pipeline_model_parallel_split_rank is not None:
             unwrapped_model = self.models[0]
-            unwrapped_model = unwrap_model(
-                unwrapped_model, (torchDDP, LocalDDP, Float16Module))
-            assert args.DDP_impl == 'local', \
-                'T5 model is only supported with local DDP mode'
+            unwrapped_model = unwrap_model(unwrapped_model)
             grad = unwrapped_model.language_model.embedding.position_embeddings.weight.main_grad
             torch.distributed.all_reduce(grad, group=mpu.get_position_embedding_group())
 
@@ -263,11 +250,10 @@ class MegatronOptimizer(ABC):
                 args.sequence_parallel:
             grads = []
             for model_module in self.models:
-                unwrapped_model = unwrap_model(
-                    model_module, (torchDDP, LocalDDP, Float16Module))
+                unwrapped_model = unwrap_model(model_module)
                 for param in unwrapped_model.parameters():
                     if getattr(param, 'sequence_parallel', False):
-                        grad = param.main_grad if args.DDP_impl == 'local' else param.grad
+                        grad = param.main_grad
                         grads.append(grad.data)
             coalesced = _flatten_dense_tensors(grads)
             torch.distributed.all_reduce(
@@ -276,24 +262,22 @@ class MegatronOptimizer(ABC):
                     coalesced, grads)):
                 buf.copy_(synced)
 
-
     def reduce_model_grads(self, args, timers):
         """All-reduce all grads, and all-reduce embeddings."""
+
+        # All-reduce.
+        timers('grads-all-reduce', log_level=1).start(
+            barrier=args.barrier_with_L1_time)
+        for model in self.models:
+            model.sync_gradients()
+        timers('grads-all-reduce').stop()
 
         # All-reduce layer-norm grads (for sequence parallelism).
         timers('layernorm-grads-all-reduce', log_level=1).start(
             barrier=args.barrier_with_L1_time)
         self.allreduce_layernorm_grads(args)
         timers('layernorm-grads-all-reduce').stop()
-
-        # All-reduce if needed.
-        if args.DDP_impl == 'local':
-            timers('grads-all-reduce', log_level=1).start(
-                barrier=args.barrier_with_L1_time)
-            for model in self.models:
-                model.allreduce_gradients()
-            timers('grads-all-reduce').stop()
-
+            
         # All-reduce embedding grads.
         timers('embedding-grads-all-reduce', log_level=1).start(
             barrier=args.barrier_with_L1_time)
@@ -309,6 +293,7 @@ class MixedPrecisionOptimizer(MegatronOptimizer):
         clip_grad: clip gradeints with this global L2 norm. Note
             that clipping is ignored if clip_grad == 0
         log_num_zeros_in_grad: return number of zeros in the gradients.
+        check_for_nan_in_grad: check if gradients have a NaN.
         params_have_main_grad: flag indicating if parameters have
             a `main_grad` field. If this is set, we are assuming
             that the model parameters are store in the `main_grad`
@@ -318,8 +303,6 @@ class MixedPrecisionOptimizer(MegatronOptimizer):
             to do gradient accumulation and all-reduces in float32
             and as a result we store those gradients in the main_grad.
             Note that main grad is not necessarily in float32.
-        use_contiguous_buffers_in_local_ddp: if true, the local DDP model
-            is using a contiguous buffer to hold the model grads.
         fp16: if true, the model is running in fp16.
         bf16: if true, the model is running in bfloat16.
         params_dtype: used by distributed optimizer.
@@ -333,13 +316,12 @@ class MixedPrecisionOptimizer(MegatronOptimizer):
     """
 
     def __init__(self, optimizer, clip_grad, log_num_zeros_in_grad,
-                 params_have_main_grad, use_contiguous_buffers_in_local_ddp,
-                 fp16, bf16, params_dtype, grad_scaler,
-                 models):
+                 check_for_nan_in_grad, params_have_main_grad,
+                 fp16, bf16, params_dtype, grad_scaler, models):
 
         super().__init__(
             optimizer, clip_grad, log_num_zeros_in_grad,
-            params_have_main_grad, use_contiguous_buffers_in_local_ddp,
+            check_for_nan_in_grad, params_have_main_grad,
             models)
 
         self.fp16 = fp16
@@ -413,6 +395,7 @@ class MixedPrecisionOptimizer(MegatronOptimizer):
 
     @torch.no_grad()
     def step(self, args, timers):
+
         # Copy gradients from model params to main params.
         timers('optimizer-copy-to-main-grad', log_level=1).start(
             barrier=args.barrier_with_L1_time)
@@ -442,7 +425,8 @@ class MixedPrecisionOptimizer(MegatronOptimizer):
             barrier=args.barrier_with_L1_time)
         grad_norm = None
         if self.clip_grad > 0.0:
-            grad_norm = self.clip_grad_norm(self.clip_grad)
+            grad_norm = self.clip_grad_norm(self.clip_grad,
+                                            self.check_for_nan_in_grad)
         timers('optimizer-clip-main-grad').stop()
 
         # Count the zeros in the grads.
@@ -476,6 +460,7 @@ class Float16OptimizerWithFloat16Params(MixedPrecisionOptimizer):
         clip_grad: clip gradeints with this global L2 norm. Note
             that clipping is ignored if clip_grad == 0
         log_num_zeros_in_grad: return number of zeros in the gradients.
+        check_for_nan_in_grad: check if gradients have a NaN.
         params_have_main_grad: flag indicating if parameters have
             a `main_grad` field. If this is set, we are assuming
             that the model parameters are store in the `main_grad`
@@ -485,8 +470,6 @@ class Float16OptimizerWithFloat16Params(MixedPrecisionOptimizer):
             to do gradient accumulation and all-reduces in float32
             and as a result we store those gradients in the main_grad.
             Note that main grad is not necessarily in float32.
-        use_contiguous_buffers_in_local_ddp: if true, the local DDP model
-            is using a contiguous buffer to hold the model grads.
         fp16: if true, the model is running in fp16.
         bf16: if true, the model is running in bfloat16.
         grad_scaler: used for scaling gradients. Note that this can be
@@ -499,12 +482,12 @@ class Float16OptimizerWithFloat16Params(MixedPrecisionOptimizer):
     """
 
     def __init__(self, optimizer, clip_grad, log_num_zeros_in_grad,
-                 params_have_main_grad, use_contiguous_buffers_in_local_ddp,
-                 fp16, bf16, params_dtype, grad_scaler, models):
+                 check_for_nan_in_grad, params_have_main_grad, fp16, bf16,
+                 params_dtype, grad_scaler, models):
 
         super().__init__(
             optimizer, clip_grad, log_num_zeros_in_grad,
-            params_have_main_grad, use_contiguous_buffers_in_local_ddp,
+            check_for_nan_in_grad, params_have_main_grad,
             fp16, bf16, params_dtype, grad_scaler, models)
 
         # ======================
@@ -583,6 +566,7 @@ class Float16OptimizerWithFloat16Params(MixedPrecisionOptimizer):
 
 
     def _collect_main_grad_data_for_unscaling(self):
+
         main_grads = []
 
         # fp32 params from float16 ones.
@@ -596,6 +580,7 @@ class Float16OptimizerWithFloat16Params(MixedPrecisionOptimizer):
             for main_param in main_group:
                 if main_param.grad is not None:
                     main_grads.append(main_param.grad.data)
+        
         return main_grads
 
 
@@ -625,21 +610,12 @@ class Float16OptimizerWithFloat16Params(MixedPrecisionOptimizer):
                 # (If using contiguous buffers, main_grad's memory should
                 # persist and therefore should not be deallocated.)
                 model_param.grad = None
-                if self.params_have_main_grad and \
-                   not self.use_contiguous_buffers_in_local_ddp:
-                    model_param.main_grad = None
 
         # For fp32 grads, we need to reset the grads to main grad.
         if self.params_have_main_grad:
             for model_group in self.fp32_from_fp32_groups:
                 for model_param in model_group:
                     model_param.grad = model_param.main_grad
-
-                    # Safe to de-reference model's main_grad after copying.
-                    # (If using contiguous buffers, main_grad's memory should
-                    # persist and therefore should not be deallocated.)
-                    if not self.use_contiguous_buffers_in_local_ddp:
-                        model_param.main_grad = None
 
 
     def _copy_main_params_to_model_params(self):
@@ -702,13 +678,13 @@ class FP32Optimizer(MegatronOptimizer):
 
     def __init__(self, optimizer, clip_grad,
                  log_num_zeros_in_grad,
+                 check_for_nan_in_grad,
                  params_have_main_grad,
-                 use_contiguous_buffers_in_local_ddp,
                  models):
 
         super(FP32Optimizer, self).__init__(
             optimizer, clip_grad, log_num_zeros_in_grad,
-            params_have_main_grad, use_contiguous_buffers_in_local_ddp,
+            check_for_nan_in_grad, params_have_main_grad,
             models)
 
         self._scale = torch.cuda.FloatTensor([1.0])
@@ -738,11 +714,6 @@ class FP32Optimizer(MegatronOptimizer):
                 for param in param_group['params']:
                     param.grad = param.main_grad
 
-                    # Safe to de-reference model's main_grad after copying.
-                    # (If using contiguous buffers, main_grad's memory should
-                    # persist and therefore should not be deallocated.)
-                    if not self.use_contiguous_buffers_in_local_ddp:
-                        param.main_grad = None
         timers('optimizer-copy-to-main-grad').stop()
 
         # Clip gradients.
@@ -750,7 +721,8 @@ class FP32Optimizer(MegatronOptimizer):
             barrier=args.barrier_with_L1_time)
         grad_norm = None
         if self.clip_grad > 0.0:
-            grad_norm = self.clip_grad_norm(self.clip_grad)
+            grad_norm = self.clip_grad_norm(self.clip_grad,
+                                            self.check_for_nan_in_grad)
         timers('optimizer-clip-main-grad').stop()
 
         # count the zeros in the grads
