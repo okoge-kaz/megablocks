@@ -111,7 +111,7 @@ VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 147265562 ${VALIDATION_DATASET_PAT
 VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 1097003 ${VALIDATION_DATASET_PATH}/ja_wiki_validation_0_text_document"
 
 # checkpoint settings
-CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb-test
+CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/1.3Bx${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb-test
 
 mkdir -p ${CHECKPOINT_DIR}
 
