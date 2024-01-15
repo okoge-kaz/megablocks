@@ -1,8 +1,8 @@
 #!/bin/bash
-#$ -l rt_AF=1
-#$ -l h_rt=01:00:00
+#$ -l rt_AF=2
+#$ -l h_rt=00:30:00
 #$ -j y
-#$ -o outputs/MoE/356m_8expert/
+#$ -o outputs/MoE/1.3B_8expert/
 #$ -cwd
 
 # module load
@@ -55,7 +55,7 @@ LOSS_WEIGHT=0.1
 # Pre-training for MoE 356M parameter.
 
 NUM_LAYERS=24
-HIDDEN_SIZE=1024
+HIDDEN_SIZE=2048
 FFN_HIDDEN_SIZE=$((${HIDDEN_SIZE} * 4))  # gpt architecuture
 NUM_ATTENTION_HEADS=16
 
@@ -156,8 +156,8 @@ mpirun -np $NUM_GPUS \
   --distributed-backend nccl \
   --bf16 \
   --DDP-impl local \
-  --tensor-model-parallel-size 1 \
-  --pipeline-model-parallel-size 2 \
+  --tensor-model-parallel-size 2 \
+  --pipeline-model-parallel-size 1 \
   --moe-expert-model-parallelism \
   --no-async-tensor-model-parallel-allreduce \
   --save-interval 10000 \
@@ -170,7 +170,7 @@ mpirun -np $NUM_GPUS \
   --use-mpi \
   --wandb-entity "llm-jp" \
   --wandb-project "megablock" \
-  --wandb-name "MoE-356Mx${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
+  --wandb-name "MoE-1.3Bx${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
 
 # normalization
 # recompute-gradularity
