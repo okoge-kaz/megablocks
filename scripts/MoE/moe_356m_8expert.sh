@@ -72,8 +72,8 @@ BATCH_SIZE=1
 GLOBAL_BATCH_SIZE=1024
 
 # data config
-TOKENIZER_MODEL=/bb/llm/gaf51275/llm-jp/llm-ja-tokenizer/models/ver2/code10K_en20K_ja30K.ver2.2.model
-DATASET_DIR=/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train
+TOKENIZER_MODEL="/bb/llm/gaf51275/llm-jp/taishi-work-space/llm-jp-tokenizer/models/ver2.2/code10K_en20K_ja30K.ver2.2.model"
+DATASET_DIR=/bb/llm/gaf51275/llm-jp/taishi-work-space/binarized/ver2.2/code10K_en20K_ja30K
 
 TRAIN_DATA_PATH=""
 
@@ -101,7 +101,7 @@ TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 19566479585 ${DATASET_DIR}/ja_cc/ja_cc_merge
 TRAIN_DATA_PATH="${TRAIN_DATA_PATH} 17060823775 ${DATASET_DIR}/ja_cc/ja_cc_merge_7_text_document"
 
 # validation data
-VALIDATION_DATASET_PATH="/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val"
+VALIDATION_DATASET_PATH="/bb/llm/gaf51275/llm-jp/taishi-work-space/binarized/ver2.2/code10K_en20K_ja30K/val"
 
 VALIDATION_DATA_PATH=""
 VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 77810430 ${VALIDATION_DATASET_PATH}/code_stack_validation_0_text_document"
@@ -111,7 +111,7 @@ VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 147265562 ${VALIDATION_DATASET_PAT
 VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 1097003 ${VALIDATION_DATASET_PATH}/ja_wiki_validation_0_text_document"
 
 # checkpoint settings
-CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb/
+CHECKPOINT_DIR=/groups/gaf51275/taishi-work-space/checkpoints/MoE/megablocks/moe/356m_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb/
 
 mkdir -p ${CHECKPOINT_DIR}
 
@@ -167,7 +167,7 @@ mpirun -np $NUM_GPUS \
   --eval-interval 5 \
   --use-flash-attn \
   --use-mpi \
-  --wandb-entity "okoge" \
+  --wandb-entity "taishi-nakamura" \
   --wandb-project "megablock" \
   --wandb-name "MoE_356M_expert=${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
 
