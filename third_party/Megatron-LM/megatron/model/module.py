@@ -25,9 +25,9 @@ class MegatronModule(torch.nn.Module):
     """Megatron specific extensions of torch Module with support
     for pipelining."""
 
-    def __init__(self, share_word_embeddings=True):
+    def __init__(self, share_embeddings_and_output_weights=True):
         super(MegatronModule, self).__init__()
-        self.share_word_embeddings = share_word_embeddings
+        self.share_word_embeddings = share_embeddings_and_output_weights
 
 
     def state_dict_for_save_checkpoint(self, prefix='', keep_vars=False):

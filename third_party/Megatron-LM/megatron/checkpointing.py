@@ -469,6 +469,10 @@ def load_args_from_checkpoint(args, load_arg='load'):
     checkpoint_version = state_dict.get('checkpoint_version', 0)
     args.iteration = state_dict['iteration']
 
+        # One-off conversion for foundation models
+    if hasattr(checkpoint_args, 'disable_bias_linear'):
+        setattr(checkpoint_args, 'add_bias_linear', not getattr(checkpoint_args, 'disable_bias_linear'))
+
     def _set_arg(arg_name, old_arg_name=None, force=False):
         if not force and getattr(args, arg_name, None) is not None:
             return
@@ -487,8 +491,19 @@ def load_args_from_checkpoint(args, load_arg='load'):
     _set_arg('ffn_hidden_size')
     _set_arg('seq_length')
     _set_arg('num_attention_heads')
+    _set_arg('num_query_groups', force=True)
+    _set_arg('group_query_attention', force=True)
     _set_arg('kv_channels')
     _set_arg('max_position_embeddings')
+    _set_arg('position_embedding_type', force=True)
+    _set_arg('add_position_embedding', force=True)
+    _set_arg('use_rotary_position_embeddings', force=True)
+    _set_arg('rotary_percent', force=True)
+    _set_arg('add_bias_linear', force=True)
+    _set_arg('swiglu', force=True)
+    _set_arg('untie_embeddings_and_output_weights', force=True)
+    _set_arg('apply_layernorm_1p', force=True)
+    _set_arg('normalization', force=True)
     _set_arg('tokenizer_type')
     _set_arg('padded_vocab_size')
     if checkpoint_version < 3.0:
@@ -497,6 +512,7 @@ def load_args_from_checkpoint(args, load_arg='load'):
     else:
         _set_arg('tensor_model_parallel_size', force=True)
         _set_arg('pipeline_model_parallel_size', force=True)
+        _set_arg('virtual_pipeline_model_parallel_size', force=True)
         _set_arg('num_layers_per_virtual_pipeline_stage')
     return args
 

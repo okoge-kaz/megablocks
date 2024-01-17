@@ -13,7 +13,7 @@ from megatron.model.enums import AttnMaskType, ModelType, LayerType, AttnType
 from megatron.model import LayerNorm, megablocks_utils
 from megatron.model.fused_softmax import FusedScaleMaskSoftmax
 from megatron.model.fused_bias_gelu import bias_gelu_impl
-from megatron.model.utils import attention_mask_func, openai_gelu, erf_gelu
+from megatron.model.utils import attention_mask_func, openai_gelu, erf_gelu, get_norm
 
 try:
     from einops import rearrange
@@ -677,11 +677,12 @@ class ParallelTransformerLayer(MegatronModule):
         self.fp32_residual_connection = args.fp32_residual_connection
 
         # Layernorm on the input data.
-        self.input_layernorm = LayerNorm(
-            args.hidden_size,
-            eps=args.layernorm_epsilon,
-            no_persist_layer_norm=args.no_persist_layer_norm,
-            sequence_parallel=args.sequence_parallel)
+        self.input_layernorm = get_norm()
+        # self.input_layernorm = LayerNorm(
+        #     args.hidden_size,
+        #     eps=args.layernorm_epsilon,
+        #     no_persist_layer_norm=args.no_persist_layer_norm,
+        #     sequence_parallel=args.sequence_parallel)
 
         # Self attention.
         self.self_attention = ParallelAttention(
@@ -695,11 +696,12 @@ class ParallelTransformerLayer(MegatronModule):
         self.drop_path = DropPath(drop_path_rate) if drop_path_rate > 0.0 else None
 
         # Layernorm on the attention output
-        self.post_attention_layernorm = LayerNorm(
-            args.hidden_size,
-            eps=args.layernorm_epsilon,
-            no_persist_layer_norm=args.no_persist_layer_norm,
-            sequence_parallel=args.sequence_parallel)
+        self.post_attention_layernorm = get_norm()
+        # self.post_attention_layernorm = LayerNorm(
+        #     args.hidden_size,
+        #     eps=args.layernorm_epsilon,
+        #     no_persist_layer_norm=args.no_persist_layer_norm,
+        #     sequence_parallel=args.sequence_parallel)
 
         if self.layer_type == LayerType.decoder:
             self.inter_attention = ParallelAttention(
@@ -708,11 +710,12 @@ class ParallelTransformerLayer(MegatronModule):
                 layer_number,
                 attention_type=AttnType.cross_attn)
             # Layernorm on the attention output.
-            self.post_inter_attention_layernorm = LayerNorm(
-                args.hidden_size,
-                eps=args.layernorm_epsilon,
-                no_persist_layer_norm=args.no_persist_layer_norm,
-                sequence_parallel=args.sequence_parallel)
+            self.post_inter_attention_layernorm = get_norm()
+            # self.post_inter_attention_layernorm = LayerNorm(
+            #     args.hidden_size,
+            #     eps=args.layernorm_epsilon,
+            #     no_persist_layer_norm=args.no_persist_layer_norm,
+            #     sequence_parallel=args.sequence_parallel)
 
         # MLP
         mlp_cls = ParallelMLP
@@ -953,7 +956,7 @@ class ParallelTransformer(MegatronModule):
             import transformer_engine
         self.use_fp8 = args.fp8_e4m3 or args.fp8_hybrid
         self.fp8_recipe = None
-        self.fp8_group = mpu.get_data_parallel_group()
+        self.fp8_group = None
         if self.use_fp8:
             if args.fp8_e4m3:
                 fp8_format = transformer_engine.common.recipe.Format.E4M3
@@ -1068,11 +1071,12 @@ class ParallelTransformer(MegatronModule):
 
         if self.post_process and self.post_layer_norm:
             # Final layer norm before output.
-            self.final_layernorm = LayerNorm(
-                args.hidden_size,
-                eps=args.layernorm_epsilon,
-                no_persist_layer_norm=args.no_persist_layer_norm,
-                sequence_parallel=args.sequence_parallel)
+            self.final_norm = get_norm()
+            # self.final_layernorm = LayerNorm(
+            #     args.hidden_size,
+            #     eps=args.layernorm_epsilon,
+            #     no_persist_layer_norm=args.no_persist_layer_norm,
+            #     sequence_parallel=args.sequence_parallel)
 
     def _get_layer(self, layer_number):
         return self.layers[layer_number]
@@ -1240,6 +1244,6 @@ class ParallelTransformer(MegatronModule):
 
         # Final layer norm.
         if self.post_process and self.post_layer_norm:
-            hidden_states = self.final_layernorm(hidden_states)
+            hidden_states = self.final_norm(hidden_states)
 
         return hidden_states

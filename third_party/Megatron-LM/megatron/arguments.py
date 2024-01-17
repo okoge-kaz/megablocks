@@ -253,7 +253,15 @@ def validate_args(args, defaults={}):
 
     # Checks.
     if args.ffn_hidden_size is None:
-        args.ffn_hidden_size = 4 * args.hidden_size
+        if args.swiglu:
+            # reduce the dimension for MLP since projections happens on
+            # two linear layers. this keeps the number of parameters in
+            # the same ballpark as the counterpart with 4*h size
+            # we keep it a multiple of 64, which means the actual tensor size
+            # will be a multiple of 64 / tp_size
+            args.ffn_hidden_size = int((4 * args.hidden_size * 2 / 3) / 64) * 64
+        else:
+            args.ffn_hidden_size = 4 * args.hidden_size
 
     if args.kv_channels is None:
         assert args.hidden_size % args.num_attention_heads == 0
@@ -454,9 +462,27 @@ def _add_network_size_args(parser):
                        'attention. This is set to '
                        '   args.hidden_size // args.num_attention_heads '
                        'if not provided.')
+    group.add_argument('--group-query-attention', action='store_true',
+                          help='Use group-query attention.')
+    group.add_argument('--num-query-groups', type=int, default=1)
+
     group.add_argument('--max-position-embeddings', type=int, default=None,
                        help='Maximum number of position embeddings to use. '
                        'This is the size of position embedding.')
+    group.add_argument('--position-embedding-type', type=str, default='learned_absolute',
+                       choices=['learned_absolute', 'rope'],
+                       help='Position embedding type.')
+    group.add_argument('--use-rotary-position-embeddings', action='store_true',
+                       help='Use rotary positional embeddings or not. '
+                       'Deprecated: use --position-embedding-type')
+    group.add_argument('--rotary-percent', type=float, default=1.0,
+                       help='Percent of rotary dimension to use, default 100%%')
+    group.add_argument('--rotary-seq-len-interpolation-factor', type=int, default=None,
+                       help='Sequence length interpolation factor for rotary embeddings.')
+    group.add_argument('--no-position-embedding',
+                       action='store_false',
+                       help='Disable position embedding. Deprecated: use --position-embedding-type',
+                       dest='add_position_embedding')
     group.add_argument('--make-vocab-size-divisible-by', type=int, default=128,
                        help='Pad the vocab size to be divisible by this value.'
                        'This is added for computational efficiency reasons.')
@@ -702,6 +728,9 @@ def _add_training_args(parser):
     group.add_argument('--use-flash-attn', action='store_true',
                        help='use FlashAttention implementation of attention. '
                        'https://arxiv.org/abs/2205.14135')
+    group.add_argument('--disable-bias-linear', action='store_false',
+                       help='Disable bias in the linear layers',
+                       dest='add_bias_linear')
     group.add_argument('--optimizer', type=str, default='adam',
                        choices=['adam', 'sgd', 'adafactor'],
                        help='Optimizer function')
