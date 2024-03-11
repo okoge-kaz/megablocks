@@ -1,6 +1,5 @@
 # project
 hostfile/*
-outputs/*
 wandb/*
 
 *~

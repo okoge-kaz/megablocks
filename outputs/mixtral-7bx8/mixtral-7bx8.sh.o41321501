@@ -1,0 +1,1566 @@
+MASTER_ADDR=10.0.51.1
+using world size: 128, data-parallel-size: 2, tensor-model-parallel size: 4, pipeline-model-parallel size: 16 
+WARNING: overriding default arguments for tokenizer_type:GPT2BPETokenizer                        with tokenizer_type:SentencePieceTokenizer
+accumulate and all-reduce gradients in fp32 for bfloat16 data type.
+using torch.bfloat16 for parameters ...
+------------------------ arguments ------------------------
+  accumulate_allreduce_grads_in_fp32 .............. True
+  adam_beta1 ...................................... 0.9
+  adam_beta2 ...................................... 0.999
+  adam_eps ........................................ 1e-08
+  adlr_autoresume ................................. False
+  adlr_autoresume_interval ........................ 1000
+  apply_query_key_layer_scaling ................... True
+  apply_residual_connection_post_layernorm ........ False
+  async_tensor_model_parallel_allreduce ........... False
+  attention_dropout ............................... 0.1
+  attention_softmax_in_fp32 ....................... False
+  barrier_with_L1_time ............................ True
+  bert_binary_head ................................ True
+  bert_load ....................................... None
+  bf16 ............................................ True
+  bias_dropout_fusion ............................. True
+  bias_gelu_fusion ................................ False
+  biencoder_projection_dim ........................ 0
+  biencoder_shared_query_context_model ............ False
+  block_data_path ................................. None
+  classes_fraction ................................ 1.0
+  clip_grad ....................................... 1.0
+  consumed_train_samples .......................... 0
+  consumed_valid_samples .......................... 0
+  data_impl ....................................... infer
+  data_parallel_random_init ....................... False
+  data_parallel_size .............................. 2
+  data_path ....................................... None
+  data_per_class_fraction ......................... 1.0
+  data_sharding ................................... True
+  dataloader_type ................................. single
+  DDP_impl ........................................ local
+  decoder_num_layers .............................. None
+  decoder_seq_length .............................. None
+  dino_bottleneck_size ............................ 256
+  dino_freeze_last_layer .......................... 1
+  dino_head_hidden_size ........................... 2048
+  dino_local_crops_number ......................... 10
+  dino_local_img_size ............................. 96
+  dino_norm_last_layer ............................ False
+  dino_teacher_temp ............................... 0.07
+  dino_warmup_teacher_temp ........................ 0.04
+  dino_warmup_teacher_temp_epochs ................. 30
+  distribute_saved_activations .................... False
+  distributed_backend ............................. nccl
+  embedding_path .................................. None
+  empty_unused_memory_level ....................... 0
+  encoder_num_layers .............................. 32
+  encoder_seq_length .............................. 1024
+  end_weight_decay ................................ 0.1
+  eod_mask_loss ................................... False
+  eval_interval ................................... 100
+  eval_iters ...................................... 10
+  evidence_data_path .............................. None
+  exit_duration_in_mins ........................... None
+  exit_interval ................................... None
+  exit_signal_handler ............................. False
+  ffn_hidden_size ................................. 14336
+  finetune ........................................ False
+  fp16 ............................................ False
+  fp16_lm_cross_entropy ........................... False
+  fp32_residual_connection ........................ False
+  fp8_amax_compute_algo ........................... most_recent
+  fp8_amax_history_len ............................ 1
+  fp8_e4m3 ........................................ False
+  fp8_hybrid ...................................... False
+  fp8_interval .................................... 1
+  fp8_margin ...................................... 0
+  fp8_wgrad ....................................... True
+  global_batch_size ............................... 1024
+  gradient_accumulation_fusion .................... True
+  head_lr_mult .................................... 1.0
+  hidden_dropout .................................. 0.1
+  hidden_size ..................................... 4096
+  hysteresis ...................................... 2
+  ict_head_size ................................... None
+  ict_load ........................................ None
+  img_h ........................................... 224
+  img_w ........................................... 224
+  indexer_batch_size .............................. 128
+  indexer_log_interval ............................ 1000
+  inference_batch_times_seqlen_threshold .......... 512
+  init_method_std ................................. 0.02
+  init_method_xavier_uniform ...................... False
+  initial_loss_scale .............................. 4294967296
+  iter_per_epoch .................................. 1250
+  kv_channels ..................................... 128
+  layernorm_epsilon ............................... 1e-05
+  lazy_mpu_init ................................... None
+  load ............................................ /groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/mixtral-7bx8_8expert_0cap_fac_2top_k_1gb-pp
+  local_rank ...................................... None
+  log_batch_size_to_tensorboard ................... False
+  log_interval .................................... 1
+  log_learning_rate_to_tensorboard ................ True
+  log_loss_scale_to_tensorboard ................... True
+  log_memory_to_tensorboard ....................... False
+  log_num_zeros_in_grad ........................... False
+  log_params_norm ................................. False
+  log_timers_to_tensorboard ....................... False
+  log_validation_ppl_to_tensorboard ............... False
+  log_world_size_to_tensorboard ................... False
+  loss_scale ...................................... None
+  loss_scale_window ............................... 1000
+  lr .............................................. 0.0001
+  lr_decay_iters .................................. 63312
+  lr_decay_samples ................................ None
+  lr_decay_style .................................. cosine
+  lr_warmup_fraction .............................. 0.01
+  lr_warmup_iters ................................. 0
+  lr_warmup_samples ............................... 0
+  make_vocab_size_divisible_by .................... 128
+  mask_factor ..................................... 1.0
+  mask_prob ....................................... 0.15
+  mask_type ....................................... random
+  masked_softmax_fusion ........................... True
+  max_position_embeddings ......................... 1024
+  max_tokens_to_oom ............................... 12000
+  merge_file ...................................... None
+  micro_batch_size ................................ 1
+  min_loss_scale .................................. 1.0
+  min_lr .......................................... 1e-06
+  mmap_warmup ..................................... False
+  moe_capacity_factor ............................. 0
+  moe_expert_model_parallelism .................... False
+  moe_jitter_eps .................................. None
+  moe_lbl_in_fp32 ................................. False
+  moe_loss_weight ................................. 0.1
+  moe_num_experts ................................. 8
+  moe_top_k ....................................... 2
+  moe_use_megatron_switch ......................... False
+  no_load_optim ................................... None
+  no_load_rng ..................................... None
+  no_persist_layer_norm ........................... False
+  no_save_optim ................................... None
+  no_save_rng ..................................... None
+  num_attention_heads ............................. 32
+  num_channels .................................... 3
+  num_classes ..................................... 1000
+  num_layers ...................................... 32
+  num_layers_per_virtual_pipeline_stage ........... None
+  num_workers ..................................... 2
+  onnx_safe ....................................... None
+  openai_gelu ..................................... False
+  optimizer ....................................... adam
+  override_opt_param_scheduler .................... False
+  params_dtype .................................... torch.bfloat16
+  patch_dim ....................................... 16
+  perform_initialization .......................... True
+  pipeline_model_parallel_size .................... 16
+  pipeline_model_parallel_split_rank .............. None
+  query_in_block_prob ............................. 0.1
+  rampup_batch_size ............................... None
+  rank ............................................ 0
+  recompute_granularity ........................... selective
+  recompute_method ................................ None
+  recompute_num_layers ............................ 1
+  reset_attention_mask ............................ False
+  reset_position_ids .............................. False
+  retriever_report_topk_accuracies ................ []
+  retriever_score_scaling ......................... False
+  retriever_seq_length ............................ 256
+  sample_rate ..................................... 1.0
+  save ............................................ /groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/mixtral-7bx8_8expert_0cap_fac_2top_k_1gb-pp
+  save_interval ................................... 20
+  scatter_gather_tensors_in_pipeline .............. True
+  seed ............................................ 1234
+  seq_length ...................................... 1024
+  sequence_parallel ............................... False
+  sgd_momentum .................................... 0.9
+  short_seq_prob .................................. 0.1
+  split ........................................... 969, 30, 1
+  standalone_embedding_stage ...................... False
+  start_weight_decay .............................. 0.1
+  swin_backbone_type .............................. tiny
+  tensor_model_parallel_size ...................... 4
+  tensorboard_dir ................................. None
+  tensorboard_log_interval ........................ 1
+  tensorboard_queue_size .......................... 1000
+  test_data_path .................................. None
+  timing_log_level ................................ 0
+  timing_log_option ............................... minmax
+  titles_data_path ................................ None
+  tokenizer_model ................................. /bb/llm/gaf51275/llm-jp/llm-ja-tokenizer/models/ver2/code10K_en20K_ja30K.ver2.2.model
+  tokenizer_type .................................. SentencePieceTokenizer
+  train_data_path ................................. ['1489457253', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document', '4983898399', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document', '8967214774', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document', '17716652494', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document', '17728398911', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document', '17862741217', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document', '17854181202', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document', '17779824310', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document', '17847796716', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document', '8938950206', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document', '19540410239', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document', '19559059958', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document', '19547251566', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document', '19550089401', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document', '19553509796', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document', '19566479585', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document', '17060823775', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document']
+  train_iters ..................................... 63312
+  train_samples ................................... None
+  transformer_impl ................................ local
+  transformer_pipeline_model_parallel_size ........ 16
+  use_checkpoint_args ............................. False
+  use_checkpoint_opt_param_scheduler .............. False
+  use_contiguous_buffers_in_local_ddp ............. True
+  use_cpu_initialization .......................... None
+  use_distributed_optimizer ....................... False
+  use_flash_attn .................................. True
+  use_mpi ......................................... True
+  use_one_sent_docs ............................... False
+  use_ring_exchange_p2p ........................... False
+  valid_data_path ................................. ['77810430', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document', '37133061', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document', '1011609', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document', '147265562', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document', '1097003', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document']
+  variable_seq_lengths ............................ False
+  virtual_pipeline_model_parallel_size ............ None
+  vision_backbone_type ............................ vit
+  vision_pretraining .............................. False
+  vision_pretraining_type ......................... classify
+  vocab_extra_ids ................................. 0
+  vocab_file ...................................... None
+  wandb_entity .................................... okoge
+  wandb_id ........................................ None
+  wandb_name ...................................... Mixtral-7Bx8_expert=8_cap_fac=0_top_k=2_gb_1
+  wandb_project ................................... megablock
+  weight_decay .................................... 0.1
+  weight_decay_incr_style ......................... constant
+  world_size ...................................... 128
+-------------------- end of arguments ---------------------
+setting number of micro-batches to constant 512
+> building SentencePieceTokenizer tokenizer ...
+ > padded vocab (size: 48587) with 53 dummy tokens (new size: 48640)
+> initializing torch distributed ...
+wandb: Currently logged in as: okoge. Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.16.2 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.16.1
+wandb: Run data is saved locally in /bb/1/llm/gaf51275/llama/mistral/megablocks/wandb/run-20240114_222226-lo2ept56
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Mixtral-7Bx8_expert=8_cap_fac=0_top_k=2_gb_1-2024-01-14-22-22-24
+wandb: ⭐️ View project at https://wandb.ai/okoge/megablock
+wandb: 🚀 View run at https://wandb.ai/okoge/megablock/runs/lo2ept56
+> wandb ...
+> initialized tensor model parallel with size 4
+> initialized pipeline model parallel with size 16
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/data'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/data'
+>>> done with dataset index builder. Compilation time: 0.054 seconds
+> compiling and loading fused kernels ...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module scaled_upper_triang_masked_softmax_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module scaled_upper_triang_masked_softmax_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module scaled_masked_softmax_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module scaled_masked_softmax_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module scaled_softmax_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module scaled_softmax_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module fused_mix_prec_layer_norm_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module fused_mix_prec_layer_norm_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module fused_dense_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module fused_dense_cuda...
+>>> done with compiling and loading fused kernels. Compilation time: 9.386 seconds
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+time to initialize megatron (seconds): 15.212
+[after megatron is initialized] datetime: 2024-01-14 22:22:37 
+building GPT model ...
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 14): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 14): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 14): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 14): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 10): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 10): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 10): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 10): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 1): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 13): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 1): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 1): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 1): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 13): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 13): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 13): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 12): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 3): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 12): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 12): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 12): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 3): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 3): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 11): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 3): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 11): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 11): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 11): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 5): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 5): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 5): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 5): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 9): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 9): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 9): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 9): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 7): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 7): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 7): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 7): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 2): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 2): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 2): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 2): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 4): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 4): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 4): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 4): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 8): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 8): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 8): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 8): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 6): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 6): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 6): 1912723456
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 6): 1912723456
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 15): 1962539008
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 15): 1962539008
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 15): 1962539008
+ > number of parameters on (tensor, pipeline) model parallel rank (2, 0): 1966725120
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 0): 1966725120
+ > number of parameters on (tensor, pipeline) model parallel rank (3, 0): 1966725120
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 1966725120
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 15): 1962539008
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+> learning rate decay style: cosine
+WARNING: could not find the metadata file /groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/mixtral-7bx8_8expert_0cap_fac_2top_k_1gb-pp/latest_checkpointed_iteration.txt 
+    will not load any checkpoints and will start from random
+(min, max) time across ranks (ms):
+    load-checkpoint ................................: (0.35, 0.45)
+[after model, optimizer, and learning rate scheduler are built] datetime: 2024-01-14 22:22:38 
+> building train, validation, and test datasets ...
+train_samples=64831488, eval_iters=6340, test_iters=10
+ > datasets target sizes (minimum size):
+    train:      64831488
+    validation: 6492160
+    test:       10240
+> building train, validation, and test datasets for GPT ...
+Separate data paths provided for train, valid & test. Split string will be ignored.
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.006458 seconds
+    number of documents: 1346724
+    train:
+     document indices in [0, 1346724) total of 1346724 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document_train_indexmap_365460ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document_train_indexmap_365460ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document_train_indexmap_365460ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.004 seconds
+    total number of samples: 1454549
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.005677 seconds
+    number of documents: 6581920
+    train:
+     document indices in [0, 6581920) total of 6581920 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document_train_indexmap_1222870ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document_train_indexmap_1222870ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document_train_indexmap_1222870ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 4867089
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001652 seconds
+    number of documents: 2313597
+    train:
+     document indices in [0, 2313597) total of 2313597 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document_train_indexmap_2200233ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document_train_indexmap_2200233ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document_train_indexmap_2200233ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.011 seconds
+    total number of samples: 8757046
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.005712 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document_train_indexmap_4347032ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document_train_indexmap_4347032ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document_train_indexmap_4347032ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.009 seconds
+    total number of samples: 17301419
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.005535 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document_train_indexmap_4349914ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document_train_indexmap_4349914ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document_train_indexmap_4349914ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 17312890
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.006286 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document_train_indexmap_4382877ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document_train_indexmap_4382877ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document_train_indexmap_4382877ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.010 seconds
+    total number of samples: 17444084
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002281 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document_train_indexmap_4380776ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document_train_indexmap_4380776ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document_train_indexmap_4380776ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.010 seconds
+    total number of samples: 17435724
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002068 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document_train_indexmap_4362532ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document_train_indexmap_4362532ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document_train_indexmap_4362532ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.015 seconds
+    total number of samples: 17363110
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001924 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document_train_indexmap_4379210ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document_train_indexmap_4379210ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document_train_indexmap_4379210ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 17429489
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001838 seconds
+    number of documents: 4998900
+    train:
+     document indices in [0, 4998900) total of 4998900 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document_train_indexmap_2193298ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document_train_indexmap_2193298ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document_train_indexmap_2193298ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.005 seconds
+    total number of samples: 8729444
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001893 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document_train_indexmap_4794516ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document_train_indexmap_4794516ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document_train_indexmap_4794516ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 19082432
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.006481 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document_train_indexmap_4799092ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document_train_indexmap_4799092ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document_train_indexmap_4799092ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 19100645
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002122 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document_train_indexmap_4796195ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document_train_indexmap_4796195ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document_train_indexmap_4796195ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 19089113
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002035 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document_train_indexmap_4796891ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document_train_indexmap_4796891ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document_train_indexmap_4796891ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.011 seconds
+    total number of samples: 19091885
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.005602 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document_train_indexmap_4797730ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document_train_indexmap_4797730ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document_train_indexmap_4797730ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.005 seconds
+    total number of samples: 19095225
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002048 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document_train_indexmap_4800913ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document_train_indexmap_4800913ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document_train_indexmap_4800913ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.010 seconds
+    total number of samples: 19107891
+    total number of epochs: 1
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002204 seconds
+    number of documents: 8723697
+    train:
+     document indices in [0, 8723697) total of 8723697 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document_train_indexmap_4186115ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document_train_indexmap_4186115ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document_train_indexmap_4186115ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 16660961
+    total number of epochs: 1
+> building indices for blendable datasets ...
+ > sample ratios:
+   dataset 0, input: 0.00560902, achieved: 0.00560902
+   dataset 1, input: 0.0187684, achieved: 0.0187684
+   dataset 2, input: 0.0337689, achieved: 0.0337689
+   dataset 3, input: 0.0667176, achieved: 0.0667176
+   dataset 4, input: 0.0667619, achieved: 0.0667619
+   dataset 5, input: 0.0672678, achieved: 0.0672678
+   dataset 6, input: 0.0672356, achieved: 0.0672355
+   dataset 7, input: 0.0669555, achieved: 0.0669555
+   dataset 8, input: 0.0672115, achieved: 0.0672115
+   dataset 9, input: 0.0336624, achieved: 0.0336624
+   dataset 10, input: 0.0735856, achieved: 0.0735856
+   dataset 11, input: 0.0736558, achieved: 0.0736558
+   dataset 12, input: 0.0736113, achieved: 0.0736113
+   dataset 13, input: 0.073622, achieved: 0.073622
+   dataset 14, input: 0.0736349, achieved: 0.0736349
+   dataset 15, input: 0.0736837, achieved: 0.0736838
+   dataset 16, input: 0.0642479, achieved: 0.0642479
+> elapsed time for building blendable dataset indices: 7.45 (sec)
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.075413 seconds
+    number of documents: 20191
+    valid:
+     document indices in [0, 20191) total of 20191 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document_valid_indexmap_1920733ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document_valid_indexmap_1920733ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document_valid_indexmap_1920733ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.005 seconds
+    total number of samples: 1975656
+    total number of epochs: 26
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.027082 seconds
+    number of documents: 19800
+    valid:
+     document indices in [0, 19800) total of 19800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document_valid_indexmap_916622ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document_valid_indexmap_916622ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document_valid_indexmap_916622ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.009 seconds
+    total number of samples: 942832
+    total number of epochs: 26
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001707 seconds
+    number of documents: 1479
+    valid:
+     document indices in [0, 1479) total of 1479 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document_valid_indexmap_24972ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document_valid_indexmap_24972ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document_valid_indexmap_24972ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.001 seconds
+    total number of samples: 25686
+    total number of epochs: 26
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.098984 seconds
+    number of documents: 74937
+    valid:
+     document indices in [0, 74937) total of 74937 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document_valid_indexmap_3635217ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document_valid_indexmap_3635217ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document_valid_indexmap_3635217ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 3739165
+    total number of epochs: 26
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002566 seconds
+    number of documents: 1134
+    valid:
+     document indices in [0, 1134) total of 1134 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document_valid_indexmap_27080ns_1024sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document_valid_indexmap_27080ns_1024sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document_valid_indexmap_27080ns_1024sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.001 seconds
+    total number of samples: 27854
+    total number of epochs: 26
+> building indices for blendable datasets ...
+ > sample ratios:
+   dataset 0, input: 0.294382, achieved: 0.294382
+   dataset 1, input: 0.140486, achieved: 0.140486
+   dataset 2, input: 0.00382725, achieved: 0.00382734
+   dataset 3, input: 0.557154, achieved: 0.557154
+   dataset 4, input: 0.00415032, achieved: 0.00415038
+> elapsed time for building blendable dataset indices: 0.08 (sec)
+> finished creating GPT datasets ...
+[after dataloaders are built] datetime: 2024-01-14 22:22:51 
+done with setup ...
+training ...
+(min, max) time across ranks (ms):
+    model-and-optimizer-setup ......................: (455.91, 467.27)
+    train/valid/test-data-iterators-setup ..........: (12285.76, 12685.69)
+[before the start of training step] datetime: 2024-01-14 22:22:51 
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+[W ProcessGroupNCCL.cpp:1849] Warning: 0NCCL_AVOID_RECORD_STREAMS=1 has no effect for point-to-point collectives. (function operator())
+Traceback (most recent call last):
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/pretrain_gpt.py", line 160, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider,
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/training.py", line 149, in pretrain
+    iteration = train(forward_step_func,
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/training.py", line 753, in train
+    train_step(forward_step_func,
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/training.py", line 490, in train_step
+    torch.distributed.all_reduce(
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/.env/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 47, in wrapper
+    return func(*args, **kwargs)
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/.env/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 2050, in all_reduce
+    work = group.allreduce([tensor], opts)
+torch.distributed.DistBackendError: NCCL error in: ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1331, internal error - please report this issue to the NCCL developers, NCCL version 2.18.5
+ncclInternalError: Internal check failed.
+Last error:
+Socket recv failed while polling for opId=0x1505903aae70
+Traceback (most recent call last):
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/pretrain_gpt.py", line 160, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider,
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/training.py", line 149, in pretrain
+    iteration = train(forward_step_func,
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/training.py", line 753, in train
+    train_step(forward_step_func,
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/training.py", line 490, in train_step
+    torch.distributed.all_reduce(
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/.env/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 47, in wrapper
+    return func(*args, **kwargs)
+  File "/bb/1/llm/gaf51275/llama/mistral/megablocks/.env/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 2050, in all_reduce
+    work = group.allreduce([tensor], opts)
+torch.distributed.DistBackendError: NCCL error in: ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1331, internal error - please report this issue to the NCCL developers, NCCL version 2.18.5
+ncclInternalError: Internal check failed.
+Last error:
+Socket recv failed while polling for opId=0x14b52c3aaec0
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[1575,1],95]
+  Exit code:    1
+--------------------------------------------------------------------------

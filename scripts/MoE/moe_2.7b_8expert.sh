@@ -167,6 +167,8 @@ mpirun -np $NUM_GPUS \
   --log-interval 1 \
   --eval-interval 100 \
   --use-flash-attn \
+  --recompute-activations \
+  --recompute-granularity full \
   --use-mpi \
   --wandb-entity "llm-jp" \
   --wandb-project "megablock" \

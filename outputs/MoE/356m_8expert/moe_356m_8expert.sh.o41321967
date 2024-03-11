@@ -1,0 +1,751 @@
+MASTER_ADDR=10.0.53.5
+using world size: 8, data-parallel-size: 4, tensor-model-parallel size: 2, pipeline-model-parallel size: 1 
+WARNING: overriding default arguments for tokenizer_type:GPT2BPETokenizer                        with tokenizer_type:SentencePieceTokenizer
+accumulate and all-reduce gradients in fp32 for bfloat16 data type.
+using torch.bfloat16 for parameters ...
+------------------------ arguments ------------------------
+  accumulate_allreduce_grads_in_fp32 .............. True
+  adam_beta1 ...................................... 0.9
+  adam_beta2 ...................................... 0.999
+  adam_eps ........................................ 1e-08
+  adlr_autoresume ................................. False
+  adlr_autoresume_interval ........................ 1000
+  apply_query_key_layer_scaling ................... True
+  apply_residual_connection_post_layernorm ........ False
+  async_tensor_model_parallel_allreduce ........... False
+  attention_dropout ............................... 0.1
+  attention_softmax_in_fp32 ....................... False
+  barrier_with_L1_time ............................ True
+  bert_binary_head ................................ True
+  bert_load ....................................... None
+  bf16 ............................................ True
+  bias_dropout_fusion ............................. True
+  bias_gelu_fusion ................................ True
+  biencoder_projection_dim ........................ 0
+  biencoder_shared_query_context_model ............ False
+  block_data_path ................................. None
+  classes_fraction ................................ 1.0
+  clip_grad ....................................... 1.0
+  consumed_train_samples .......................... 0
+  consumed_valid_samples .......................... 0
+  data_impl ....................................... infer
+  data_parallel_random_init ....................... False
+  data_parallel_size .............................. 4
+  data_path ....................................... None
+  data_per_class_fraction ......................... 1.0
+  data_sharding ................................... True
+  dataloader_type ................................. single
+  DDP_impl ........................................ local
+  decoder_num_layers .............................. None
+  decoder_seq_length .............................. None
+  dino_bottleneck_size ............................ 256
+  dino_freeze_last_layer .......................... 1
+  dino_head_hidden_size ........................... 2048
+  dino_local_crops_number ......................... 10
+  dino_local_img_size ............................. 96
+  dino_norm_last_layer ............................ False
+  dino_teacher_temp ............................... 0.07
+  dino_warmup_teacher_temp ........................ 0.04
+  dino_warmup_teacher_temp_epochs ................. 30
+  distribute_saved_activations .................... False
+  distributed_backend ............................. nccl
+  embedding_path .................................. None
+  empty_unused_memory_level ....................... 0
+  encoder_num_layers .............................. 24
+  encoder_seq_length .............................. 4096
+  end_weight_decay ................................ 0.1
+  eod_mask_loss ................................... False
+  eval_interval ................................... 100
+  eval_iters ...................................... 10
+  evidence_data_path .............................. None
+  exit_duration_in_mins ........................... None
+  exit_interval ................................... None
+  exit_signal_handler ............................. False
+  ffn_hidden_size ................................. 4096
+  finetune ........................................ False
+  fp16 ............................................ False
+  fp16_lm_cross_entropy ........................... False
+  fp32_residual_connection ........................ False
+  fp8_amax_compute_algo ........................... most_recent
+  fp8_amax_history_len ............................ 1
+  fp8_e4m3 ........................................ False
+  fp8_hybrid ...................................... False
+  fp8_interval .................................... 1
+  fp8_margin ...................................... 0
+  fp8_wgrad ....................................... True
+  global_batch_size ............................... 1024
+  gradient_accumulation_fusion .................... True
+  head_lr_mult .................................... 1.0
+  hidden_dropout .................................. 0.1
+  hidden_size ..................................... 1024
+  hysteresis ...................................... 2
+  ict_head_size ................................... None
+  ict_load ........................................ None
+  img_h ........................................... 224
+  img_w ........................................... 224
+  indexer_batch_size .............................. 128
+  indexer_log_interval ............................ 1000
+  inference_batch_times_seqlen_threshold .......... 512
+  init_method_std ................................. 0.018
+  init_method_xavier_uniform ...................... False
+  initial_loss_scale .............................. 4294967296
+  iter_per_epoch .................................. 1250
+  kv_channels ..................................... 64
+  layernorm_epsilon ............................... 1e-05
+  lazy_mpu_init ................................... None
+  load ............................................ /groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_8expert_0cap_fac_2top_k_1gb-test
+  local_rank ...................................... None
+  log_batch_size_to_tensorboard ................... False
+  log_interval .................................... 1
+  log_learning_rate_to_tensorboard ................ True
+  log_loss_scale_to_tensorboard ................... True
+  log_memory_to_tensorboard ....................... False
+  log_num_zeros_in_grad ........................... False
+  log_params_norm ................................. False
+  log_timers_to_tensorboard ....................... False
+  log_validation_ppl_to_tensorboard ............... False
+  log_world_size_to_tensorboard ................... False
+  loss_scale ...................................... None
+  loss_scale_window ............................... 1000
+  lr .............................................. 0.0003
+  lr_decay_iters .................................. 63312
+  lr_decay_samples ................................ None
+  lr_decay_style .................................. cosine
+  lr_warmup_fraction .............................. 0.01
+  lr_warmup_iters ................................. 0
+  lr_warmup_samples ............................... 0
+  make_vocab_size_divisible_by .................... 128
+  mask_factor ..................................... 1.0
+  mask_prob ....................................... 0.15
+  mask_type ....................................... random
+  masked_softmax_fusion ........................... True
+  max_position_embeddings ......................... 4096
+  max_tokens_to_oom ............................... 12000
+  merge_file ...................................... None
+  micro_batch_size ................................ 1
+  min_loss_scale .................................. 1.0
+  min_lr .......................................... 1e-06
+  mmap_warmup ..................................... False
+  moe_capacity_factor ............................. 0
+  moe_expert_model_parallelism .................... True
+  moe_jitter_eps .................................. None
+  moe_lbl_in_fp32 ................................. False
+  moe_loss_weight ................................. 0.1
+  moe_num_experts ................................. 8
+  moe_top_k ....................................... 2
+  moe_use_megatron_switch ......................... False
+  no_load_optim ................................... None
+  no_load_rng ..................................... None
+  no_persist_layer_norm ........................... False
+  no_save_optim ................................... None
+  no_save_rng ..................................... None
+  num_attention_heads ............................. 16
+  num_channels .................................... 3
+  num_classes ..................................... 1000
+  num_layers ...................................... 24
+  num_layers_per_virtual_pipeline_stage ........... None
+  num_workers ..................................... 2
+  onnx_safe ....................................... None
+  openai_gelu ..................................... False
+  optimizer ....................................... adam
+  override_opt_param_scheduler .................... False
+  params_dtype .................................... torch.bfloat16
+  patch_dim ....................................... 16
+  perform_initialization .......................... True
+  pipeline_model_parallel_size .................... 1
+  pipeline_model_parallel_split_rank .............. None
+  query_in_block_prob ............................. 0.1
+  rampup_batch_size ............................... None
+  rank ............................................ 0
+  recompute_granularity ........................... None
+  recompute_method ................................ None
+  recompute_num_layers ............................ 1
+  reset_attention_mask ............................ False
+  reset_position_ids .............................. False
+  retriever_report_topk_accuracies ................ []
+  retriever_score_scaling ......................... False
+  retriever_seq_length ............................ 256
+  sample_rate ..................................... 1.0
+  save ............................................ /groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_8expert_0cap_fac_2top_k_1gb-test
+  save_interval ................................... 10000
+  scatter_gather_tensors_in_pipeline .............. True
+  seed ............................................ 1234
+  seq_length ...................................... 4096
+  sequence_parallel ............................... False
+  sgd_momentum .................................... 0.9
+  short_seq_prob .................................. 0.1
+  split ........................................... 969, 30, 1
+  standalone_embedding_stage ...................... False
+  start_weight_decay .............................. 0.1
+  swin_backbone_type .............................. tiny
+  tensor_model_parallel_size ...................... 2
+  tensorboard_dir ................................. None
+  tensorboard_log_interval ........................ 1
+  tensorboard_queue_size .......................... 1000
+  test_data_path .................................. None
+  timing_log_level ................................ 0
+  timing_log_option ............................... minmax
+  titles_data_path ................................ None
+  tokenizer_model ................................. /bb/llm/gaf51275/llm-jp/llm-ja-tokenizer/models/ver2/code10K_en20K_ja30K.ver2.2.model
+  tokenizer_type .................................. SentencePieceTokenizer
+  train_data_path ................................. ['1489457253', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document', '4983898399', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document', '8967214774', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document', '17716652494', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document', '17728398911', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document', '17862741217', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document', '17854181202', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document', '17779824310', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document', '17847796716', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document', '8938950206', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document', '19540410239', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document', '19559059958', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document', '19547251566', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document', '19550089401', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document', '19553509796', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document', '19566479585', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document', '17060823775', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document']
+  train_iters ..................................... 63312
+  train_samples ................................... None
+  transformer_impl ................................ local
+  transformer_pipeline_model_parallel_size ........ 1
+  use_checkpoint_args ............................. False
+  use_checkpoint_opt_param_scheduler .............. False
+  use_contiguous_buffers_in_local_ddp ............. True
+  use_cpu_initialization .......................... None
+  use_distributed_optimizer ....................... False
+  use_flash_attn .................................. True
+  use_mpi ......................................... True
+  use_one_sent_docs ............................... False
+  use_ring_exchange_p2p ........................... False
+  valid_data_path ................................. ['77810430', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document', '37133061', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document', '1011609', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document', '147265562', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document', '1097003', '/bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document']
+  variable_seq_lengths ............................ False
+  virtual_pipeline_model_parallel_size ............ None
+  vision_backbone_type ............................ vit
+  vision_pretraining .............................. False
+  vision_pretraining_type ......................... classify
+  vocab_extra_ids ................................. 0
+  vocab_file ...................................... None
+  wandb_entity .................................... llm-jp
+  wandb_id ........................................ None
+  wandb_name ...................................... MoE-356Mx8_cap_fac=0_top_k=2_gb_1
+  wandb_project ................................... megablock
+  weight_decay .................................... 0.1
+  weight_decay_incr_style ......................... constant
+  world_size ...................................... 8
+-------------------- end of arguments ---------------------
+setting number of micro-batches to constant 256
+> building SentencePieceTokenizer tokenizer ...
+ > padded vocab (size: 48587) with 53 dummy tokens (new size: 48640)
+> initializing torch distributed ...
+wandb: Currently logged in as: okoge (llm-jp). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.16.2 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.16.1
+wandb: Run data is saved locally in /bb/1/llm/gaf51275/llama/mistral/megablocks/wandb/run-20240115_014857-08jf0q1i
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run MoE-356Mx8_cap_fac=0_top_k=2_gb_1-2024-01-15-01-48-54
+wandb: ⭐️ View project at https://wandb.ai/llm-jp/megablock
+wandb: 🚀 View run at https://wandb.ai/llm-jp/megablock/runs/08jf0q1i
+> wandb ...
+> initialized tensor model parallel with size 2
+> initialized pipeline model parallel with size 1
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/data'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/data'
+>>> done with dataset index builder. Compilation time: 0.051 seconds
+> compiling and loading fused kernels ...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module scaled_upper_triang_masked_softmax_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module scaled_upper_triang_masked_softmax_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module scaled_masked_softmax_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module scaled_masked_softmax_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module scaled_softmax_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module scaled_softmax_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module fused_mix_prec_layer_norm_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module fused_mix_prec_layer_norm_cuda...
+Detected CUDA files, patching ldflags
+Emitting ninja build file /bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/fused_kernels/build/build.ninja...
+Building extension module fused_dense_cuda...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module fused_dense_cuda...
+>>> done with compiling and loading fused kernels. Compilation time: 5.490 seconds
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/initialize.py:278: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at ../torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+  output = bias_gelu(bias, input)
+time to initialize megatron (seconds): 11.101
+[after megatron is initialized] datetime: 2024-01-15 01:49:04 
+building GPT model ...
+ > number of parameters on (tensor, pipeline) model parallel rank (1, 0): 482465792
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 482465792
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+/bb/1/llm/gaf51275/llama/mistral/megablocks/third_party/Megatron-LM/megatron/optimizer/optimizer.py:371: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at ../torch/csrc/tensor/python_tensor.cpp:83.)
+  self._scale_one = torch.cuda.FloatTensor([1.0])
+> learning rate decay style: cosine
+WARNING: could not find the metadata file /groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_8expert_0cap_fac_2top_k_1gb-test/latest_checkpointed_iteration.txt 
+    will not load any checkpoints and will start from random
+(min, max) time across ranks (ms):
+    load-checkpoint ................................: (1.22, 1.24)
+[after model, optimizer, and learning rate scheduler are built] datetime: 2024-01-15 01:49:04 
+> building train, validation, and test datasets ...
+train_samples=64831488, eval_iters=6340, test_iters=10
+ > datasets target sizes (minimum size):
+    train:      64831488
+    validation: 6492160
+    test:       10240
+> building train, validation, and test datasets for GPT ...
+Separate data paths provided for train, valid & test. Split string will be ignored.
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002164 seconds
+    number of documents: 1346724
+    train:
+     document indices in [0, 1346724) total of 1346724 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document_train_indexmap_365460ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document_train_indexmap_365460ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_wiki/ja_wiki_merge_1_text_document_train_indexmap_365460ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.016 seconds
+    total number of samples: 727275
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001386 seconds
+    number of documents: 6581920
+    train:
+     document indices in [0, 6581920) total of 6581920 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document_train_indexmap_1222870ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document_train_indexmap_1222870ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_wiki/en_wiki_merge_1_text_document_train_indexmap_1222870ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 2433545
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001901 seconds
+    number of documents: 2313597
+    train:
+     document indices in [0, 2313597) total of 2313597 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document_train_indexmap_2200233ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document_train_indexmap_2200233ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/code_stack/code_stack_merge_1_text_document_train_indexmap_2200233ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 4378523
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002475 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document_train_indexmap_4347032ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document_train_indexmap_4347032ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_1_text_document_train_indexmap_4347032ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8650710
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002020 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document_train_indexmap_4349914ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document_train_indexmap_4349914ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_2_text_document_train_indexmap_4349914ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8656445
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002105 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document_train_indexmap_4382877ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document_train_indexmap_4382877ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_3_text_document_train_indexmap_4382877ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8722042
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002366 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document_train_indexmap_4380776ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document_train_indexmap_4380776ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_4_text_document_train_indexmap_4380776ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8717862
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001992 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document_train_indexmap_4362532ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document_train_indexmap_4362532ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_5_text_document_train_indexmap_4362532ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8681555
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002090 seconds
+    number of documents: 9997800
+    train:
+     document indices in [0, 9997800) total of 9997800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document_train_indexmap_4379210ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document_train_indexmap_4379210ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_6_text_document_train_indexmap_4379210ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8714745
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002214 seconds
+    number of documents: 4998900
+    train:
+     document indices in [0, 4998900) total of 4998900 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document_train_indexmap_2193298ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document_train_indexmap_2193298ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/en_pile/en_pile_merge_7_text_document_train_indexmap_2193298ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 4364722
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001744 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document_train_indexmap_4794516ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document_train_indexmap_4794516ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_1_text_document_train_indexmap_4794516ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 9541216
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001754 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document_train_indexmap_4799092ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document_train_indexmap_4799092ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_2_text_document_train_indexmap_4799092ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 9550323
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001819 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document_train_indexmap_4796195ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document_train_indexmap_4796195ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_3_text_document_train_indexmap_4796195ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 9544557
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001898 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document_train_indexmap_4796891ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document_train_indexmap_4796891ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_4_text_document_train_indexmap_4796891ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 9545943
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001955 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document_train_indexmap_4797730ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document_train_indexmap_4797730ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_5_text_document_train_indexmap_4797730ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 9547613
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001868 seconds
+    number of documents: 10000000
+    train:
+     document indices in [0, 10000000) total of 10000000 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document_train_indexmap_4800913ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document_train_indexmap_4800913ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_6_text_document_train_indexmap_4800913ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 9553946
+    total number of epochs: 2
+ > building dataset index ...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.001814 seconds
+    number of documents: 8723697
+    train:
+     document indices in [0, 8723697) total of 8723697 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document_train_indexmap_4186115ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document_train_indexmap_4186115ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/train/ja_cc/ja_cc_merge_7_text_document_train_indexmap_4186115ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 8330481
+    total number of epochs: 2
+> building indices for blendable datasets ...
+ > sample ratios:
+   dataset 0, input: 0.00560902, achieved: 0.00560902
+   dataset 1, input: 0.0187684, achieved: 0.0187684
+   dataset 2, input: 0.0337689, achieved: 0.0337689
+   dataset 3, input: 0.0667176, achieved: 0.0667176
+   dataset 4, input: 0.0667619, achieved: 0.0667619
+   dataset 5, input: 0.0672678, achieved: 0.0672678
+   dataset 6, input: 0.0672356, achieved: 0.0672355
+   dataset 7, input: 0.0669555, achieved: 0.0669555
+   dataset 8, input: 0.0672115, achieved: 0.0672115
+   dataset 9, input: 0.0336624, achieved: 0.0336624
+   dataset 10, input: 0.0735856, achieved: 0.0735856
+   dataset 11, input: 0.0736558, achieved: 0.0736558
+   dataset 12, input: 0.0736113, achieved: 0.0736113
+   dataset 13, input: 0.073622, achieved: 0.073622
+   dataset 14, input: 0.0736349, achieved: 0.0736349
+   dataset 15, input: 0.0736837, achieved: 0.0736837
+   dataset 16, input: 0.0642479, achieved: 0.0642479
+> elapsed time for building blendable dataset indices: 3.72 (sec)
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.050469 seconds
+    number of documents: 20191
+    valid:
+     document indices in [0, 20191) total of 20191 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document_valid_indexmap_1920733ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document_valid_indexmap_1920733ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/code_stack_validation_0_text_document_valid_indexmap_1920733ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 1937663
+    total number of epochs: 102
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.024466 seconds
+    number of documents: 19800
+    valid:
+     document indices in [0, 19800) total of 19800 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document_valid_indexmap_916622ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document_valid_indexmap_916622ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_pile_validation_0_text_document_valid_indexmap_916622ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 924701
+    total number of epochs: 102
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002430 seconds
+    number of documents: 1479
+    valid:
+     document indices in [0, 1479) total of 1479 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document_valid_indexmap_24972ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document_valid_indexmap_24972ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/en_wiki_validation_0_text_document_valid_indexmap_24972ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.002 seconds
+    total number of samples: 25192
+    total number of epochs: 102
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.090985 seconds
+    number of documents: 74937
+    valid:
+     document indices in [0, 74937) total of 74937 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document_valid_indexmap_3635217ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document_valid_indexmap_3635217ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_cc_validation_0_text_document_valid_indexmap_3635217ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.006 seconds
+    total number of samples: 3667258
+    total number of epochs: 102
+ > building dataset index ...
+    warming up index mmap file...
+    reading sizes...
+    reading pointers...
+    reading document index...
+    warming up data mmap file...
+    creating numpy buffer of mmap...
+    creating memory view of numpy buffer...
+ > finished creating indexed dataset in 0.002814 seconds
+    number of documents: 1134
+    valid:
+     document indices in [0, 1134) total of 1134 documents
+ > loading doc-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document_valid_indexmap_27080ns_4096sl_1234s_doc_idx.npy
+ > loading sample-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document_valid_indexmap_27080ns_4096sl_1234s_sample_idx.npy
+ > loading shuffle-idx mapping from /bb/llm/gaf51275/llm-jp/binarize/gpt-7b/ver2.2/code10K_en20K_ja30K/val/ja_wiki_validation_0_text_document_valid_indexmap_27080ns_4096sl_1234s_shuffle_idx.npy
+    loaded indexed file in 0.002 seconds
+    total number of samples: 27318
+    total number of epochs: 102
+> building indices for blendable datasets ...
+ > sample ratios:
+   dataset 0, input: 0.294382, achieved: 0.294382
+   dataset 1, input: 0.140486, achieved: 0.140487
+   dataset 2, input: 0.00382725, achieved: 0.00382733
+   dataset 3, input: 0.557154, achieved: 0.557154
+   dataset 4, input: 0.00415032, achieved: 0.00415033
+> elapsed time for building blendable dataset indices: 0.08 (sec)
+> finished creating GPT datasets ...
+[after dataloaders are built] datetime: 2024-01-15 01:49:11 
+done with setup ...
+(min, max) time across ranks (ms):
+    model-and-optimizer-setup ......................: (177.27, 177.46)
+    train/valid/test-data-iterators-setup ..........: (6724.43, 6932.54)
+training ...
+[before the start of training step] datetime: 2024-01-15 01:49:11 
+ iteration        1/   63312 | consumed samples:         1024 | elapsed time per iteration (ms): 54517.9 | learning rate: 4.738E-07 | global batch size:  1024 |tokens per sec: 76934.3892755925 |TFLOPS: 31.19720258880986 | lm loss: 1.092742E+01 | load balancing loss: 1.298828E-01 | loss scale: 1.0 | grad norm: 24.241 | number of skipped iterations:   0 | number of nan iterations:   0 |
+[Rank 1] (after 1 iterations) memory (MB) | allocated: 8306.365234375 | max allocated: 10374.04443359375 | reserved: 11224.0 | max reserved: 11224.0
+[Rank 0] (after 1 iterations) memory (MB) | allocated: 8305.828125 | max allocated: 10372.34716796875 | reserved: 11228.0 | max reserved: 11228.0
+ iteration        2/   63312 | consumed samples:         2048 | elapsed time per iteration (ms): 50046.9 | learning rate: 9.477E-07 | global batch size:  1024 |tokens per sec: 83807.50886194056 |TFLOPS: 33.98428007355235 | lm loss: 1.092890E+01 | load balancing loss: 1.289062E-01 | loss scale: 1.0 | grad norm: 23.967 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        3/   63312 | consumed samples:         3072 | elapsed time per iteration (ms): 50021.2 | learning rate: 1.422E-06 | global batch size:  1024 |tokens per sec: 83850.60980447967 |TFLOPS: 34.00175767815573 | lm loss: 1.092542E+01 | load balancing loss: 1.298828E-01 | loss scale: 1.0 | grad norm: 23.917 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        4/   63312 | consumed samples:         4096 | elapsed time per iteration (ms): 50180.4 | learning rate: 1.895E-06 | global batch size:  1024 |tokens per sec: 83584.54380965883 |TFLOPS: 33.8938668529919 | lm loss: 1.089496E+01 | load balancing loss: 1.298828E-01 | loss scale: 1.0 | grad norm: 23.821 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        5/   63312 | consumed samples:         5120 | elapsed time per iteration (ms): 50111.0 | learning rate: 2.369E-06 | global batch size:  1024 |tokens per sec: 83700.217521281 |TFLOPS: 33.940773005749534 | lm loss: 1.080568E+01 | load balancing loss: 1.289062E-01 | loss scale: 1.0 | grad norm: 22.564 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        6/   63312 | consumed samples:         6144 | elapsed time per iteration (ms): 50824.5 | learning rate: 2.843E-06 | global batch size:  1024 |tokens per sec: 82525.1643473519 |TFLOPS: 33.46428424350859 | lm loss: 1.057656E+01 | load balancing loss: 1.289062E-01 | loss scale: 1.0 | grad norm: 16.095 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        7/   63312 | consumed samples:         7168 | elapsed time per iteration (ms): 50779.6 | learning rate: 3.317E-06 | global batch size:  1024 |tokens per sec: 82598.21702805086 |TFLOPS: 33.49390739774274 | lm loss: 1.050349E+01 | load balancing loss: 1.289062E-01 | loss scale: 1.0 | grad norm: 14.511 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        8/   63312 | consumed samples:         8192 | elapsed time per iteration (ms): 52239.7 | learning rate: 3.791E-06 | global batch size:  1024 |tokens per sec: 80289.64303090142 |TFLOPS: 32.55777140760265 | lm loss: 1.028381E+01 | load balancing loss: 1.347656E-01 | loss scale: 1.0 | grad norm: 11.797 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration        9/   63312 | consumed samples:         9216 | elapsed time per iteration (ms): 51689.6 | learning rate: 4.265E-06 | global batch size:  1024 |tokens per sec: 81144.06630403789 |TFLOPS: 32.90424346255258 | lm loss: 1.020466E+01 | load balancing loss: 1.318359E-01 | loss scale: 1.0 | grad norm: 10.404 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       10/   63312 | consumed samples:        10240 | elapsed time per iteration (ms): 51571.5 | learning rate: 4.738E-06 | global batch size:  1024 |tokens per sec: 81329.94939421317 |TFLOPS: 32.97961979915102 | lm loss: 1.009340E+01 | load balancing loss: 1.289062E-01 | loss scale: 1.0 | grad norm: 8.410 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       11/   63312 | consumed samples:        11264 | elapsed time per iteration (ms): 51036.1 | learning rate: 5.212E-06 | global batch size:  1024 |tokens per sec: 82183.02894961413 |TFLOPS: 33.32554697118433 | lm loss: 9.998843E+00 | load balancing loss: 1.279297E-01 | loss scale: 1.0 | grad norm: 7.268 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       12/   63312 | consumed samples:        12288 | elapsed time per iteration (ms): 50969.7 | learning rate: 5.686E-06 | global batch size:  1024 |tokens per sec: 82290.10204433545 |TFLOPS: 33.3689655393862 | lm loss: 9.901587E+00 | load balancing loss: 1.269531E-01 | loss scale: 1.0 | grad norm: 6.203 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       13/   63312 | consumed samples:        13312 | elapsed time per iteration (ms): 50140.0 | learning rate: 6.160E-06 | global batch size:  1024 |tokens per sec: 83651.85662037006 |TFLOPS: 33.921162466986544 | lm loss: 9.842916E+00 | load balancing loss: 1.259766E-01 | loss scale: 1.0 | grad norm: 5.286 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       14/   63312 | consumed samples:        14336 | elapsed time per iteration (ms): 49735.0 | learning rate: 6.634E-06 | global batch size:  1024 |tokens per sec: 84333.05825388686 |TFLOPS: 34.19739245418414 | lm loss: 9.767058E+00 | load balancing loss: 1.269531E-01 | loss scale: 1.0 | grad norm: 4.916 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       15/   63312 | consumed samples:        15360 | elapsed time per iteration (ms): 49773.7 | learning rate: 7.108E-06 | global batch size:  1024 |tokens per sec: 84267.41000869637 |TFLOPS: 34.170771828166416 | lm loss: 9.694343E+00 | load balancing loss: 1.279297E-01 | loss scale: 1.0 | grad norm: 4.300 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       16/   63312 | consumed samples:        16384 | elapsed time per iteration (ms): 49490.0 | learning rate: 7.582E-06 | global batch size:  1024 |tokens per sec: 84750.46277043124 |TFLOPS: 34.36665165526095 | lm loss: 9.644642E+00 | load balancing loss: 1.279297E-01 | loss scale: 1.0 | grad norm: 3.568 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       17/   63312 | consumed samples:        17408 | elapsed time per iteration (ms): 49021.6 | learning rate: 8.055E-06 | global batch size:  1024 |tokens per sec: 85560.32066929796 |TFLOPS: 34.695052272683 | lm loss: 9.606054E+00 | load balancing loss: 1.279297E-01 | loss scale: 1.0 | grad norm: 2.998 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       18/   63312 | consumed samples:        18432 | elapsed time per iteration (ms): 48684.7 | learning rate: 8.529E-06 | global batch size:  1024 |tokens per sec: 86152.38953831725 |TFLOPS: 34.935138567345795 | lm loss: 9.578662E+00 | load balancing loss: 1.259766E-01 | loss scale: 1.0 | grad norm: 2.557 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       19/   63312 | consumed samples:        19456 | elapsed time per iteration (ms): 48186.6 | learning rate: 9.003E-06 | global batch size:  1024 |tokens per sec: 87043.00773880945 |TFLOPS: 35.296287810118194 | lm loss: 9.543792E+00 | load balancing loss: 1.250000E-01 | loss scale: 1.0 | grad norm: 2.311 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       20/   63312 | consumed samples:        20480 | elapsed time per iteration (ms): 47998.7 | learning rate: 9.477E-06 | global batch size:  1024 |tokens per sec: 87383.61160453812 |TFLOPS: 35.434404040086626 | lm loss: 9.519388E+00 | load balancing loss: 1.245117E-01 | loss scale: 1.0 | grad norm: 2.178 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       21/   63312 | consumed samples:        21504 | elapsed time per iteration (ms): 48081.0 | learning rate: 9.951E-06 | global batch size:  1024 |tokens per sec: 87234.18700799666 |TFLOPS: 35.373811768490675 | lm loss: 9.464847E+00 | load balancing loss: 1.245117E-01 | loss scale: 1.0 | grad norm: 2.007 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       22/   63312 | consumed samples:        22528 | elapsed time per iteration (ms): 47916.6 | learning rate: 1.042E-05 | global batch size:  1024 |tokens per sec: 87533.45359875419 |TFLOPS: 35.49516556810922 | lm loss: 9.444703E+00 | load balancing loss: 1.245117E-01 | loss scale: 1.0 | grad norm: 2.066 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       23/   63312 | consumed samples:        23552 | elapsed time per iteration (ms): 48218.2 | learning rate: 1.090E-05 | global batch size:  1024 |tokens per sec: 86985.89273743168 |TFLOPS: 35.273127448599496 | lm loss: 9.422907E+00 | load balancing loss: 1.240234E-01 | loss scale: 1.0 | grad norm: 3.625 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       24/   63312 | consumed samples:        24576 | elapsed time per iteration (ms): 47872.5 | learning rate: 1.137E-05 | global batch size:  1024 |tokens per sec: 87614.14467603777 |TFLOPS: 35.527886122712026 | lm loss: 9.420424E+00 | load balancing loss: 1.235352E-01 | loss scale: 1.0 | grad norm: 4.828 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       25/   63312 | consumed samples:        25600 | elapsed time per iteration (ms): 47987.5 | learning rate: 1.185E-05 | global batch size:  1024 |tokens per sec: 87404.11183911549 |TFLOPS: 35.44271696720869 | lm loss: 9.387981E+00 | load balancing loss: 1.235352E-01 | loss scale: 1.0 | grad norm: 1.907 | number of skipped iterations:   0 | number of nan iterations:   0 |
+ iteration       26/   63312 | consumed samples:        26624 | elapsed time per iteration (ms): 47588.1 | learning rate: 1.232E-05 | global batch size:  1024 |tokens per sec: 88137.6077858312 |TFLOPS: 35.7401525075857 | lm loss: 9.387572E+00 | load balancing loss: 1.230469E-01 | loss scale: 1.0 | grad norm: 5.782 | number of skipped iterations:   0 | number of nan iterations:   0 |

@@ -1,6 +1,6 @@
 #!/bin/bash
-#$ -l rt_AF=2
-#$ -l h_rt=00:15:00
+#$ -l rt_AF=8
+#$ -l h_rt=00:30:00
 #$ -j y
 #$ -o outputs/MoE/6.7B_8expert/
 #$ -cwd
@@ -59,7 +59,7 @@ HIDDEN_SIZE=4096
 FFN_HIDDEN_SIZE=$((${HIDDEN_SIZE} * 4))  # gpt architecuture
 NUM_ATTENTION_HEADS=32
 
-LR=1.6e-4
+LR=1.2e-4
 MIN_LR=1.0e-6
 INIT_STD=0.011
 
@@ -111,7 +111,7 @@ VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 147265562 ${VALIDATION_DATASET_PAT
 VALIDATION_DATA_PATH="${VALIDATION_DATA_PATH} 1097003 ${VALIDATION_DATASET_PATH}/ja_wiki_validation_0_text_document"
 
 # checkpoint settings
-CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/356m_${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb-test
+CHECKPOINT_DIR=/groups/gaf51275/llama/checkpoints/MoE/megablocks/moe/6.7bx${NUM_EXPERTS}expert_${CAPACITY_FACTOR}cap_fac_${TOP_K}top_k_${BATCH_SIZE}gb-test
 
 mkdir -p ${CHECKPOINT_DIR}
 
@@ -156,8 +156,8 @@ mpirun -np $NUM_GPUS \
   --distributed-backend nccl \
   --bf16 \
   --DDP-impl local \
-  --tensor-model-parallel-size 1 \
-  --pipeline-model-parallel-size 2 \
+  --tensor-model-parallel-size 2 \
+  --pipeline-model-parallel-size 32 \
   --moe-expert-model-parallelism \
   --no-async-tensor-model-parallel-allreduce \
   --save-interval 10000 \
@@ -167,10 +167,12 @@ mpirun -np $NUM_GPUS \
   --log-interval 1 \
   --eval-interval 100 \
   --use-flash-attn \
+  --recompute-activations \
+  --recompute-granularity full \
   --use-mpi \
   --wandb-entity "llm-jp" \
   --wandb-project "megablock" \
-  --wandb-name "MoE-2.7Bx${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
+  --wandb-name "MoE-6.7Bx${NUM_EXPERTS}_cap_fac=${CAPACITY_FACTOR}_top_k=${TOP_K}_gb_${BATCH_SIZE}"
 
 # normalization
 # recompute-gradularity

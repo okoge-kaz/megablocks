@@ -156,8 +156,8 @@ mpirun -np $NUM_GPUS \
   --distributed-backend nccl \
   --bf16 \
   --DDP-impl local \
-  --tensor-model-parallel-size 2 \
-  --pipeline-model-parallel-size 1 \
+  --tensor-model-parallel-size 1 \
+  --pipeline-model-parallel-size 2 \
   --moe-expert-model-parallelism \
   --no-async-tensor-model-parallel-allreduce \
   --save-interval 10000 \
